@@ -4,7 +4,7 @@ angular.module('myApp.evaluations', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/evaluations', {
-    templateUrl: 'view_evaluations/view_evaluations.html',
+    templateUrl: 'views/view_evaluations/view_evaluations.html',
     controller: 'EvaluationsController'
   });
 }])
