@@ -1,0 +1,16 @@
+<h2>Evaluations</h2>
+
+<table class="table table-striped table-hover">
+	<tr>
+		<th>Name</th>
+		<th>Anonymous</th>
+		<th>Published</th>
+		<th>Results Available After</th>
+	</tr>
+	<tr ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)"> <!-- TODO ng-click -->
+		<td>{{evaluation.name}}</td>
+		<td>{{evaluation.isAnonymous}}</td>
+		<td>{{evaluation.resultsAvailableDate}}</td>
+		<td>{{evaluation.isPublished}}</td>
+	</tr>
+</table>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.nav', ['ngRoute'])
+angular.module('app.nav', ['ngRoute'])
 
   .controller('navController', ['$scope', '$location', function($scope, $location) {
     console.log($location.path());

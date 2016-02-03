@@ -1,8 +1,8 @@
 'use strict';
 
-describe('myApp.nav module', function() {
+describe('app.nav module', function() {
 
-  beforeEach(module('myApp.nav'));
+  beforeEach(module('app.nav'));
 
   describe('nav controller', function(){
 

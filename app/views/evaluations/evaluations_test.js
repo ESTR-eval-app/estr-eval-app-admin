@@ -1,8 +1,8 @@
 'use strict';
 
-describe('myApp.evaluations module', function() {
+describe('app.evaluations module', function() {
 
-  beforeEach(module('myApp.evaluations'));
+  beforeEach(module('app.evaluations'));
 
   describe('evaluations controller', function(){
 
