@@ -11,6 +11,7 @@
     "angular-loader": "~1.4.0",
     "angular-mocks": "~1.4.0",
     "angular-animate": "^1.4.9",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "angular-jwt": "^0.0.9"
   }
 }

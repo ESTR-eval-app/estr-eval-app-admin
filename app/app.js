@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('app', [
   'ngRoute',
+  'app.auth',
   'app.nav',
   'app.home',
   'app.login',
@@ -13,9 +14,9 @@ angular.module('app', [
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});
 }]).
-run(function($rootScope, $location) {
+run(function($rootScope, $location, authService) {
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-    if (!window.localStorage['token']) {
+    if (!authService.isUserAuthenticated()) {
       // if not logged in, show login
       if ( next.templateUrl === "views/login/login.html") {
       } else {

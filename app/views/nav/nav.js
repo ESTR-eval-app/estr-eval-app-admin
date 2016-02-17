@@ -2,22 +2,18 @@
 
 angular.module('app.nav', ['ngRoute'])
 
-  .controller('navController', ['$scope', '$location', function($scope, $location) {
+  .controller('navController', ['$scope', '$location', 'authService', function($scope, $location, authService) {
     console.log($location.path());
-    //TODO check
-    $scope.templateUrl = (window.localStorage['token']) ? 'views/nav/nav_private.html' : 'views/nav/nav_public.html' ;
+
+    $scope.templateUrl = (authService.isUserAuthenticated()) ? 'views/nav/nav_private.html' : 'views/nav/nav_public.html' ;
 
     $scope.isActive = function(location) {
       return location == $location.path();
     };
 
-    $scope.reloadNav = function () {
-
-    };
-
     $scope.logout = function() {
       console.log("Logging out");
-      window.localStorage.removeItem("token");
+      authService.logout()
     };
 
   }]);

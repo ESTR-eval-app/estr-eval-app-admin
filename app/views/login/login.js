@@ -9,14 +9,14 @@ angular.module('app.login', ['ngRoute'])
   });
 }])
 
-.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+.controller('LoginController', ['$scope', '$http', '$location', 'authService', function($scope, $http, $location, authService) {
+
   $scope.attemptLogin = function () {
-    console.log($scope.user);
     $http.post('http://localhost:3000/api/authenticate', $scope.user).then(authSuccess, authFailed);
   };
 
   function authSuccess(response) {
-    window.localStorage['token'] = response.data.token;
+    authService.login(response.data.token);
     $location.path('/evaluations');
 
   }
