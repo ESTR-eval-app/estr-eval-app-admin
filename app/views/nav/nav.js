@@ -4,15 +4,20 @@ angular.module('app.nav', ['ngRoute'])
 
   .controller('navController', ['$scope', '$location', function($scope, $location) {
     console.log($location.path());
-    //TODO navs for other paths, check auth
-    $scope.templateUrl = 'views/nav/nav_private.html';
-  //  $scope.templateUrl = (path==='/home') ? 'views/nav/nav_public.html' : 'views/nav/nav_private.html' ;
+    //TODO check
+    $scope.templateUrl = (window.localStorage['token']) ? 'views/nav/nav_private.html' : 'views/nav/nav_public.html' ;
 
     $scope.isActive = function(location) {
       return location == $location.path();
     };
 
+    $scope.reloadNav = function () {
+
+    };
+
+    $scope.logout = function() {
+      console.log("Logging out");
+      window.localStorage.removeItem("token");
+    };
 
   }]);
-//  }
-//]);

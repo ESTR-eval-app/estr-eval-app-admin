@@ -17,7 +17,7 @@
 				<!--add class active conditionally-->
 				<li ng-class="{ active: isActive('/evaluations')}"><a href="#/evaluations">Evaluations</a></li>
 				<li ng-class="{ active: isActive('/new-evaluation')}"><a href="#/new-evaluation">New Evaluation</a></li>
-				<li ng-class="{ active: isActive('/logout')}"><a href="#/logout">Log Out</a></li>
+				<li ng-click="logout()"><a href="#/logout">Log Out</a></li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->

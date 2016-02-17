@@ -12,4 +12,15 @@ angular.module('app', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});
-}]);
+}]).
+run(function($rootScope, $location) {
+  $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+    if (!window.localStorage['token']) {
+      // if not logged in, show login
+      if ( next.templateUrl === "views/login/login.html") {
+      } else {
+        $location.path("/login");
+      }
+    }
+  });
+});

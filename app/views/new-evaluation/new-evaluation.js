@@ -9,6 +9,9 @@ angular.module('app.new-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('NewEvaluationController', [function() {
-
+  .controller('NewEvaluationController', ['$scope', function($scope) {
+    $scope.newEvaluationSaveClick = function() {
+      console.log($scope.evaluation);
+      // TODO get user and send
+    }
   }]);

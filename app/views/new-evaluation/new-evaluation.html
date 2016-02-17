@@ -1,1 +1,22 @@
+<div ng-controller="navController" ng-include="templateUrl">
+
+</div>
+
+<div class="container">
 <h2>New Evaluation</h2>
+<form class="form-horizontal col-xs-4" name="newEvaluationForm">
+	<div class="form-group">
+		<label for="name">Name</label>
+		<input ng-model="evaluation.name" type="text" class="form-control" id="name" placeholder="Name">
+		<label for="date">Date Finished</label>
+		<input ng-model="evaluation.resultsAvailableDate" type="date" class="form-control" id="date">
+		<label class="checkbox-inline" for="anonymous">
+			<input ng-model="evaluation.isAnonymous" type="checkbox" id="anonymous" value="true">
+			Anonymous Responses?
+		</label>
+
+	</div>
+	<button type="button" class="btn btn-default" ng-click="newEvaluationSaveClick()">Submit</button>
+</form>
+
+	</div>
