@@ -2,7 +2,6 @@ angular.module('app.auth', ['angular-jwt'])
   .factory('authService', function (jwtHelper) {
 
 
-
     return {
 
       login: function (token) {
@@ -17,7 +16,7 @@ angular.module('app.auth', ['angular-jwt'])
       },
 
       getAPITokenHeader: function () {
-
+        //console.log(window.localStorage['auth']);
         return {'api-token': window.localStorage['auth']};
       },
 
@@ -38,7 +37,7 @@ angular.module('app.auth', ['angular-jwt'])
             var expired = jwtHelper.isTokenExpired(token);
             if (expired) {
               console.log("token expired");
-              logout();
+              this.logout();
             }
             console.log("authenticated")
             return true;

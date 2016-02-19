@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO validate form
+
 angular.module('app.new-evaluation', ['ngRoute'])
 
   .config(['$routeProvider', function ($routeProvider) {
@@ -14,6 +16,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
     $scope.newEvaluationSaveClick = function () {
       console.log($scope.evaluation);
       $scope.evaluation.createdBy = authService.getTokenUser().id;
+      $scope.evaluation.questions = {};
 
       $http.post('http://localhost:3000/api/evaluations', $scope.evaluation, {
         headers: authService.getAPITokenHeader()
@@ -22,11 +25,14 @@ angular.module('app.new-evaluation', ['ngRoute'])
       function success(response) {
         console.log(response);
         console.log('added successfully');
+
+        // TODO confirm creation and return to evaluations
       }
 
       function fail(response) {
         console.log(response.data);
         console.log('adding failed');
+        // TODO notify of failure
       }
     }
 

@@ -8,7 +8,8 @@ angular.module('app', [
   'app.home',
   'app.login',
   'app.evaluations',
-  'app.new-evaluation'
+  'app.new-evaluation',
+  'app.view-evaluation'
 
 ]).
 config(['$routeProvider', function($routeProvider) {

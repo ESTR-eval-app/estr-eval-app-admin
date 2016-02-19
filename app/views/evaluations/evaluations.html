@@ -10,14 +10,16 @@
 	<tr>
 		<th>Name</th>
 		<th>Anonymous</th>
-		<th>Published</th>
+		<th>Status</th>
 		<th>Results Available After</th>
+		<th></th>
 	</tr>
-	<tr ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)"> <!-- TODO ng-click -->
+		<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)">
 		<td>{{evaluation.name}}</td>
 		<td>{{evaluation.isAnonymous}}</td>
+		<td>{{evaluation.status}}</td>
 		<td>{{evaluation.resultsAvailableDate}}</td>
-		<td>{{evaluation.isPublished}}</td>
+
 	</tr>
 </table>
 

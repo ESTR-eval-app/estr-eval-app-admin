@@ -9,7 +9,7 @@ angular.module('app.evaluations', ['ngRoute'])
   });
 }])
 
-.controller('EvaluationsController', ['$http', '$scope', 'authService', function($http, $scope, authService) {
+.controller('EvaluationsController', ['$http', '$scope', '$location', 'authService', function($http, $scope, $location, authService) {
 
   $http
     .get("http://localhost:3000/api/evaluations", {
@@ -18,7 +18,8 @@ angular.module('app.evaluations', ['ngRoute'])
 
   function evaluationsRetrieveSuccess(response) {
       console.log(response);
-      $scope.evaluations = response.data; // TODO show data in table
+      $scope.evaluations = response.data;
+      // TODO format date, highlight status colours
     }
 
   function evaluationsRetrieveFailure(response) {
@@ -33,8 +34,7 @@ angular.module('app.evaluations', ['ngRoute'])
   }
 
   $scope.viewEvaluation = function(id) {
-    console.log('view evaluation ' + id);
-    // TODO go to evaluation edit
+    $location.path("/view-evaluation/" + id);
   }
 
 }]);
