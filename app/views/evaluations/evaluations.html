@@ -17,7 +17,17 @@
 		<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)">
 		<td>{{evaluation.name}}</td>
 		<td>{{evaluation.isAnonymous}}</td>
-		<td>{{evaluation.status}}</td>
+			<td>
+				<!--TODO move these and labels in view evaluations to  their own template-->
+				<!--label for Created status-->
+				<span class="label label-success" ng-show="evaluation.status=='Created'">{{evaluation.status}}</span>
+				<!--label for Published status-->
+				<span class="label label-warning" ng-show="evaluation.status=='Published'">{{evaluation.status}}</span>
+				<!--label for Closed status-->
+				<span class="label label-danger" ng-show="evaluation.status=='Closed'">{{evaluation.status}}</span>
+				<!--label for Finished status-->
+				<span class="label label-info" ng-show="evaluation.status=='Finished'">{{evaluation.status}}</span>
+			</td>
 		<td>{{evaluation.resultsAvailableDate}}</td>
 
 	</tr>

@@ -3,21 +3,136 @@
 </div>
 
 <div class="container">
+
+	<!--Status change modal-->
+	<div class="modal fade" id="statusChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group"><label>Current Status</label> <br>
+								<!--label for Created status-->
+								<span class="label label-success" ng-show="evaluation.status=='Created'">{{evaluation.status}}</span>
+								<!--label for Published status-->
+								<span class="label label-warning" ng-show="evaluation.status=='Published'">{{evaluation.status}}</span>
+								<!--label for Closed status-->
+								<span class="label label-danger" ng-show="evaluation.status=='Closed'">{{evaluation.status}}</span>
+								<!--label for Finished status-->
+								<span class="label label-info" ng-show="evaluation.status=='Finished'">{{evaluation.status}}</span>
+							</div>
+
+							<!--Eval state description text-->
+							<p ng-show="evaluation.status == 'Finished'" class="help-block">This evaluation has
+								finished. Results are available.</p>
+							<p ng-show="evaluation.status != 'Published'" class="help-block">This evaluation is not
+								visible to students.</p>
+							<p ng-show="evaluation.status == 'Published'" class="help-block">This evaluation is
+								currently visible to participants.</p>
+
+							<p ng-show="evaluation.status == 'Closed'" class="help-block"> This evaluation can be made
+								visible once again if its finish date has not passed.</p>
+
+							<p ng-show="evaluation.status == 'Created'" class="help-block">This evaluation can be
+								modified.</p>
+							<p ng-show="evaluation.status != 'Created'" class="help-block">This evaluation can not be
+								modified.</p>
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-group"><label>New Status</label>
+								<select ng-show="evaluation.status != 'Finished'" ng-model="newStatus"
+								        class="form-control">
+									<option ng-show="evaluation.status == 'Created'" value="Published">Published
+									</option>
+									<option ng-show="evaluation.status == 'Published'" value="Closed">Closed</option>
+									<option ng-show="evaluation.status == 'Closed'" value="Published">Published</option>
+								</select>
+
+								<div ng-show="evaluation.status == 'Finished'">
+									<p>This evaluation has finished.</p>
+									<!--TODO shortcut to results-->
+									<button type="button" class="btn btn-xs btn-default" ng-click="">View Results
+									</button>
+									<!--TODO duplicate-->
+									<button type="button" class="btn btn-xs btn-default" ng-click="">Copy to New
+										Evaluation
+									</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-default" ng-click="updateStatusBtnClick()">Save changes
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<h2>View Evaluation</h2>
+
+	<div id="updateSuccessAlert" class="alert alert-success" style="display: none;">
+		<strong>Update Successful</strong> Your changes were saved successfully.
+	</div>
+	<div id="updateFailureAlert" class="alert alert-danger" style="display: none;">
+		<strong>Update Failed</strong> Your changes were not saved.
+	</div>
 
 	<div class="panel panel-default">
 
+
+		<!--TODO validate form-->
 		<div class="panel-heading"> Details</div>
 		<div class="panel-body">
 			<div class="col-lg-6">
 				<form role="form" class="ng-pristine ng-valid">
 					<div class="form-group"><label>Name</label> <input class="form-control" ng-model="evaluation.name"
-					                                                   ng-disabled="evaluation.state != 'Created'">
+					                                                   ng-disabled="evaluation.status != 'Created'">
 					</div>
 
-					<div class="form-group"><label>Status</label> <br> <span class="label label-default">{{evaluation.status}}</span>
+					<div class="form-group"><label>Status</label> <br>
+						<!--label for Created status-->
+						<span class="label label-success"
+						      ng-show="evaluation.status=='Created'">{{evaluation.status}}</span>
+						<!--label for Published status-->
+						<span class="label label-warning"
+						      ng-show="evaluation.status=='Published'">{{evaluation.status}}</span>
+						<!--label for Closed status-->
+						<span class="label label-danger"
+						      ng-show="evaluation.status=='Closed'">{{evaluation.status}}</span>
+						<!--label for Finished status-->
+						<span class="label label-info"
+						      ng-show="evaluation.status=='Finished'">{{evaluation.status}}</span>
+
 						<button type="button" class="btn btn-xs btn-default" ng-click="changeStatusBtnClick()">Change
 						</button>
+
+						<!--Eval state description text-->
+						<p ng-show="evaluation.status == 'Finished'" class="help-block">This evaluation has finished.
+							Results are available.</p>
+						<p ng-show="evaluation.status != 'Published'" class="help-block">This evaluation is not visible
+							to students.</p>
+						<p ng-show="evaluation.status == 'Published'" class="help-block">This evaluation is currently
+							visible to participants.</p>
+
+						<p ng-show="evaluation.status == 'Closed'" class="help-block"> This evaluation can be made
+							visible once again if its finish date has not passed.</p>
+
+						<p ng-show="evaluation.status == 'Created'" class="help-block">This evaluation can be
+							modified.</p>
+						<p ng-show="evaluation.status != 'Created'" class="help-block">This evaluation can not be
+							modified.</p>
+
 
 					</div>
 				</form>
@@ -28,14 +143,15 @@
 					<div class="form-group">
 						<label for="date">Date Finished</label>
 						<input ng-model="evaluation.resultsAvailableDate" type="date" class="form-control"
-						       id="date" ng-disabled="evaluation.state != 'Created'">
+						       id="date" ng-disabled="evaluation.status != 'Created'">
 					</div>
 					<div class="form-group"><label>Name Collection</label>
 						<div class="checkbox"><label> <input type="checkbox" ng-model="evaluation.isAnonymous"
-						                                     ng-disabled="evaluation.state != 'Created'">Make Responses
+						                                     ng-disabled="evaluation.status != 'Created'">Make Responses
 							Anonymous </label></div>
 					</div>
-					<button ng-disabled="evaluation.state != 'Created'" type="submit" class="btn btn-default pull-right"
+					<button ng-disabled="evaluation.status != 'Created'" type="submit"
+					        class="btn btn-default pull-right"
 					        ng-click="saveChangesBtnClick()">Save Changes
 					</button>
 				</form>
