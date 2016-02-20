@@ -28,3 +28,11 @@
   content: "";
   padding: 0;
 }
+
+.btn-horiz-space {
+	margin-right: 5px;
+}
+
+.btn-vert-space {
+	margin-top: 5px;
+}
