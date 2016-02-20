@@ -9,7 +9,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', function ($routeParams, $location, $scope, $http, authService) {
+  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
 
     $scope.questionsModified = false;
 

@@ -11,7 +11,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', function ($scope, $location, $http, authService) {
+  .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', 'envService', function ($scope, $location, $http, authService, envService) {
 
     $scope.newEvaluationSaveClick = function () {
       console.log($scope.evaluation);

@@ -9,10 +9,10 @@ angular.module('app.evaluations', ['ngRoute'])
   });
 }])
 
-.controller('EvaluationsController', ['$http', '$scope', '$location', 'authService', function($http, $scope, $location, authService) {
+  .controller('EvaluationsController', ['$http', '$scope', '$location', 'authService', 'envService', function ($http, $scope, $location, authService, envService) {
 
   $http
-    .get("http://localhost:3000/api/evaluations", {
+    .get('http:' + envService.read('apiUrl') + '/evaluations', {
       headers : authService.getAPITokenHeader()
     }).then(evaluationsRetrieveSuccess, evaluationsRetrieveFailure);
 
