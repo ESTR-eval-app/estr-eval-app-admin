@@ -11,7 +11,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('NewEvaluationController', ['$scope', '$http', 'authService', function ($scope, $http, authService) {
+  .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', function ($scope, $location, $http, authService) {
 
     $scope.newEvaluationSaveClick = function () {
       console.log($scope.evaluation);
@@ -25,14 +25,12 @@ angular.module('app.new-evaluation', ['ngRoute'])
       function success(response) {
         console.log(response);
         console.log('added successfully');
-
-        // TODO confirm creation and return to evaluations
+        $location.path("/view-evaluation/" + response.data.id);
       }
 
       function fail(response) {
         console.log(response.data);
         console.log('adding failed');
-        // TODO notify of failure
       }
     }
 

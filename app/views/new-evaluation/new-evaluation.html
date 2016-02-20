@@ -1,5 +1,4 @@
 <div ng-controller="navController" ng-include="templateUrl">
-
 </div>
 
 <div class="container">
@@ -8,15 +7,17 @@
 	<div class="form-group">
 		<label for="name">Name</label>
 		<input ng-model="evaluation.name" type="text" class="form-control" id="name" placeholder="Name">
+	</div>
+	<div class="form-group">
 		<label for="date">Date Finished</label>
 		<input ng-model="evaluation.resultsAvailableDate" type="date" class="form-control" id="date">
+	</div>
+	<div class="form-group">
 		<label class="checkbox-inline" for="anonymous">
 			<input ng-model="evaluation.isAnonymous" type="checkbox" id="anonymous" value="true">
 			Anonymous Responses?
 		</label>
-
 	</div>
-	<button type="button" class="btn btn-default" ng-click="newEvaluationSaveClick()">Submit</button>
+	<button type="button" class="btn btn-default pull-right" ng-click="newEvaluationSaveClick()">Create</button>
 </form>
-
-	</div>
+</div>

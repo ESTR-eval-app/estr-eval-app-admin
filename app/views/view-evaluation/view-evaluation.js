@@ -9,7 +9,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('ViewEvaluationController', ['$routeParams', '$scope', '$http', 'authService', function ($routeParams, $scope, $http, authService) {
+  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', function ($routeParams, $location, $scope, $http, authService) {
 
     $scope.questionsModified = false;
 
@@ -38,6 +38,26 @@ angular.module('app.view-evaluation', ['ngRoute'])
     $scope.saveEvalOptionsBtnClick = function () {
       // TODO check validation
       updateEvaluation();
+    };
+
+    $scope.deleteEvaluationBtnClick = function () {
+      if (!confirm("Are you sure you want to delete this evaluation? This cannot be undone.")) {
+        return;
+      }
+      $http
+        .delete('http://localhost:3000/api/evaluations/' + $scope.evaluation.id, {
+          headers: authService.getAPITokenHeader()
+        }).then(success, fail);
+
+      function success(response) {
+        console.log('deleted successfully');
+        $location.path('/evaluations');
+      }
+
+      function fail(response) {
+        console.log(response);
+        console.log('delete failed');
+      }
     };
 
     $scope.updateStatusBtnClick = function () {
@@ -88,19 +108,27 @@ angular.module('app.view-evaluation', ['ngRoute'])
     }
 
     $scope.addQuestionBtnClick = function () {
-      $('#questionsModifiedAlert').show();
-      $scope.questionsModified = true;
+      if (!$scope.evaluation.questions.length) {
+        $scope.evaluation.questions = [];
+      }
+      $scope.editQuestion = {
+        type: "Faces"
+      };
 
-
-      // TODO
+      $("#questionDetailModal").modal("show");
     };
 
+    $scope.completeQuestionModifyBtnClick = function () {
+      $scope.evaluation.questions.push($scope.editQuestion);
+      // TODO get path of uploaded file and add to obj
+      $("#questionDetailModal").modal("hide");
+      $("#questionsModifiedAlert").show();
+      $scope.questionsModified = true;
+    };
 
     $scope.editQuestionBtnClick = function (index) {
-      $('#questionsModifiedAlert').show();
-      $scope.questionsModified = true;
-
-      // TODO
+      $scope.editQuestion = $scope.evaluation.questions[index];
+      $("#questionDetailModal").modal("show");
     };
 
     $scope.deleteQuestionBtnClick = function (index) {
