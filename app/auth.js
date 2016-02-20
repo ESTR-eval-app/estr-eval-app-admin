@@ -30,20 +30,20 @@ angular.module('app.auth', ['angular-jwt'])
         }
       },
 
-         isUserAuthenticated : function () {
-          var token = window.localStorage['auth'];
-          if (token) {
-            //console.log(token);
-            var expired = jwtHelper.isTokenExpired(token);
-            if (expired) {
-              console.log("token expired");
-              this.logout();
-            }
-            console.log("authenticated")
-            return true;
+      isUserAuthenticated: function () {
+        var token = window.localStorage['auth'];
+        if (token) {
+          //console.log(token);
+          var expired = jwtHelper.isTokenExpired(token);
+          if (expired) {
+            console.log("token expired");
+            this.logout();
           }
-           console.log("not authenticated");
-          return false;
+          console.log("authenticated");
+          return true;
         }
+        console.log("not authenticated");
+        return false;
       }
-    });
+    }
+  });

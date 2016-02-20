@@ -17,7 +17,7 @@ angular.module('app.evaluations', ['ngRoute'])
     }).then(evaluationsRetrieveSuccess, evaluationsRetrieveFailure);
 
   function evaluationsRetrieveSuccess(response) {
-      console.log(response);
+    //console.log(response);
       $scope.evaluations = response.data;
     // TODO format date
     }
