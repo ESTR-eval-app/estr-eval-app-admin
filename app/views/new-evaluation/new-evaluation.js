@@ -18,7 +18,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
       $scope.evaluation.createdBy = authService.getTokenUser().id;
       $scope.evaluation.questions = {};
 
-      $http.post('http://localhost:3000/api/evaluations', $scope.evaluation, {
+      $http.post('http:' + envService.read('apiUrl') + '/evaluations', $scope.evaluation, {
         headers: authService.getAPITokenHeader()
       }).then(success, fail);
 

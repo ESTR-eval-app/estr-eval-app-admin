@@ -15,7 +15,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
     var evalId = $routeParams.evalId;
     $http
-      .get('http://localhost:3000/api/evaluations/' + evalId, {
+      .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
         headers: authService.getAPITokenHeader()
       }).then(success, fail);
 
@@ -45,7 +45,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
         return;
       }
       $http
-        .delete('http://localhost:3000/api/evaluations/' + $scope.evaluation.id, {
+        .delete('http:' + envService.read('apiUrl') + '/evaluations/' + $scope.evaluation.id, {
           headers: authService.getAPITokenHeader()
         }).then(success, fail);
 
@@ -75,7 +75,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
     function updateEvaluation() {
       //send update to server
       $http
-        .put('http://localhost:3000/api/evaluations/' + evalId, $scope.evaluation, {
+        .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
           headers: authService.getAPITokenHeader()
         }).then(success, fail);
 
