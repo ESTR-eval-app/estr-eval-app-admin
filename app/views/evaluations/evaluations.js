@@ -19,7 +19,7 @@ angular.module('app.evaluations', ['ngRoute'])
   function evaluationsRetrieveSuccess(response) {
       console.log(response);
       $scope.evaluations = response.data;
-      // TODO format date, highlight status colours
+    // TODO format date
     }
 
   function evaluationsRetrieveFailure(response) {
