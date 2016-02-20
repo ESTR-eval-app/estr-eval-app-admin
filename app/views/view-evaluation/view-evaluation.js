@@ -11,7 +11,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
   .controller('ViewEvaluationController', ['$routeParams', '$scope', '$http', 'authService', function ($routeParams, $scope, $http, authService) {
 
-    console.log("hello");
+    $scope.questionsModified = false;
+
     var evalId = $routeParams.evalId;
     $http
       .get('http://localhost:3000/api/evaluations/' + evalId, {
@@ -32,10 +33,9 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
     $scope.changeStatusBtnClick = function () {
       $("#statusChangeModal").modal("show");
-      // TODO change status
     };
 
-    $scope.saveChangesBtnClick = function () {
+    $scope.saveEvalOptionsBtnClick = function () {
       // TODO check validation
       updateEvaluation();
     };
@@ -64,6 +64,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
         console.log('updated successfully');
         $('#updateSuccessAlert').show();
         $('#updateFailAlert').hide();
+        $('#questionsModifiedAlert').hide();
+
 
         setTimeout(function () {
           $('#updateSuccessAlert').fadeOut();
@@ -83,6 +85,42 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
       }
 
+    }
+
+    $scope.addQuestionBtnClick = function () {
+      $('#questionsModifiedAlert').show();
+      $scope.questionsModified = true;
+
+
+      // TODO
+    };
+
+
+    $scope.editQuestionBtnClick = function (index) {
+      $('#questionsModifiedAlert').show();
+      $scope.questionsModified = true;
+
+      // TODO
+    };
+
+    $scope.deleteQuestionBtnClick = function (index) {
+      $('#questionsModifiedAlert').show();
+      $scope.questionsModified = true;
+
+      if (!confirm("Are you sure you want to delete this question?")) {
+        return;
+      }
+
+      console.log($scope.evaluation.questions);
+      console.log("remove at " + index);
+
+      $scope.evaluation.questions.splice(index, 1);
+
+      console.log($scope.evaluation.questions);
+    };
+
+    $scope.saveQuestionsBtnClick = function () {
+      updateEvaluation();
     }
 
   }]);
