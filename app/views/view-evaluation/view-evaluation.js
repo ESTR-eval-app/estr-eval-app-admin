@@ -118,9 +118,25 @@ angular.module('app.view-evaluation', ['ngRoute'])
       $("#questionDetailModal").modal("show");
     };
 
+    // TODO changing question in modal incorrectly updates before save changes clicked
     $scope.completeQuestionModifyBtnClick = function () {
-      $scope.evaluation.questions.push($scope.editQuestion);
-      // TODO get path of uploaded file and add to obj
+
+      // TODO get path of uploaded file and add to obj. Send to audio route then get path back to include in obj
+
+      if ($scope.editQuestion.index) {
+        // has an index, is an edit
+        var i = $scope.editQuestion.index;
+        delete $scope.editQuestion.index;
+        console.log($scope.evaluation.questions);
+        $scope.evaluation.questions.splice(i, $scope.editQuestion);
+        console.log($scope.evaluation.questions);
+      }
+      else {
+        // new, add to end
+        $scope.evaluation.questions.push($scope.editQuestion);
+
+      }
+
       $("#questionDetailModal").modal("hide");
       $("#questionsModifiedAlert").show();
       $scope.questionsModified = true;
@@ -128,6 +144,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
     $scope.editQuestionBtnClick = function (index) {
       $scope.editQuestion = $scope.evaluation.questions[index];
+      $scope.editQuestion.index = index;
       $("#questionDetailModal").modal("show");
     };
 
