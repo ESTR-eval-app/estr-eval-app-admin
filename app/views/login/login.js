@@ -12,7 +12,7 @@ angular.module('app.login', ['ngRoute'])
   .controller('LoginController', ['$scope', '$http', '$location', 'authService', 'envService', function ($scope, $http, $location, authService, envService) {
 
   $scope.attemptLogin = function () {
-    $http.post('http:' + envService.read('apiUrl') + '/authenticate', $scope.user).then(authSuccess, authFailed);
+    $http.post('http:' + envService.read('apiUrl') + ':3000/api/authenticate', $scope.user).then(authSuccess, authFailed);
   };
 
   function authSuccess(response) {
