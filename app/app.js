@@ -22,10 +22,10 @@ angular.module('app', [
     },
     vars: {
       development: {
-        apiUrl: "//localhost"
+        apiUrl: "//localhost:3000/api"
       },
       production: {
-        productionUrl: "//stevenlyall.me"
+        apiUrl: "//stevenlyall.me:3000/api"
       }
     }
   });
