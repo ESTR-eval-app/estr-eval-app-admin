@@ -38,7 +38,7 @@ run(function($rootScope, $location, authService) {
       // if not logged in, show login
       if ( next.templateUrl === "views/login/login.html") {
       } else {
-        $location.path("/login");
+        $location.path("/home");
       }
     }
   });
