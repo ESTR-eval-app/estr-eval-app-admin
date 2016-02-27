@@ -18,6 +18,12 @@
 			Anonymous Responses?
 		</label>
 	</div>
+	<div class="form-group">
+		<label class="checkbox-inline" for="notApplicable">
+			<input ng-model="evaluation.allowNotApplicable" type="checkbox" id="notApplicable" value="true">
+			Include "Not Applicable" in Scale?
+		</label>
+	</div>
 	<button type="button" class="btn btn-default pull-right" ng-click="newEvaluationSaveClick()">Create</button>
 </form>
 </div>

@@ -149,6 +149,13 @@
 						                                     ng-disabled="evaluation.status != 'Created'">Make Responses
 							Anonymous </label></div>
 					</div>
+					<div class="form-group">
+						<label class="checkbox-inline" for="notApplicable">
+							<input ng-model="evaluation.allowNotApplicable" type="checkbox" id="notApplicable"
+							       value="true">
+							Include "Not Applicable" in Scale?
+						</label>
+					</div>
 					<button ng-disabled="evaluation.status != 'Created'" type="submit"
 					        class="btn btn-default btn-horiz-space pull-right"
 					        ng-click="saveEvalOptionsBtnClick()">Save Options
