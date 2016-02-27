@@ -16,6 +16,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
     $scope.newEvaluationSaveClick = function () {
       console.log($scope.evaluation);
       $scope.evaluation.createdBy = authService.getTokenUser().id;
+      $scope.evaluation.isAnonymous = true;
       $scope.evaluation.questions = {};
 
       $http.post('http:' + envService.read('apiUrl') + '/evaluations', $scope.evaluation, {
