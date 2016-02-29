@@ -175,6 +175,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
       delete evaluation.status;
 
       window.localStorage['copyEvaluation'] = JSON.stringify($scope.evaluation);
+      $("#statusChangeModal").modal("hide");
       $location.path("/new-evaluation");
     }
 
