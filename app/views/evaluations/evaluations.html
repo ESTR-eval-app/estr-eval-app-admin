@@ -8,7 +8,7 @@
 <table class="table table-striped table-hover">
 	<tr>
 		<th>Name</th>
-		<th>Anonymous</th>
+		<th>Anonymous?</th>
 		<th>Status</th>
 		<th>Results Available After</th>
 	</tr>
@@ -17,7 +17,7 @@
 	</tr>
 		<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)">
 		<td>{{evaluation.name}}</td>
-		<td>{{evaluation.isAnonymous}}</td>
+			<td><span ng-show="evaluation.isAnonymous" class="glyphicon glyphicon-sunglasses center-block"></span></td>
 			<td>
 				<!--TODO move these and labels in view evaluations to  their own template-->
 				<!--label for Created status-->
