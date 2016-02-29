@@ -10,7 +10,8 @@ angular.module('app', [
   'app.login',
   'app.evaluations',
   'app.new-evaluation',
-  'app.view-evaluation'
+  'app.view-evaluation',
+  'app.view-results'
 
 ]).config(['$routeProvider', 'envServiceProvider', function ($routeProvider, envServiceProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});

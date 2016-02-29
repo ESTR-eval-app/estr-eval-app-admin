@@ -180,6 +180,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
     };
 
     $scope.viewResultsBtnClick = function (id) {
-      // TODO view results for eval by id
+      $("#statusChangeModal").modal("hide");
+      $location.path("/view-results/" + id);
+
     }
   }]);

@@ -10,12 +10,12 @@
 		<th>Name</th>
 		<th>Anonymous?</th>
 		<th>Status</th>
-		<th>Results Available After</th>
+		<th>Results Available</th>
 	</tr>
 	<tr class="ng-scope" ng-show="!evaluations.length">
 		<td colspan="5">No Evaluations</td>
 	</tr>
-		<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id)">
+	<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id, $event)">
 		<td>{{evaluation.name}}</td>
 			<td><span ng-show="evaluation.isAnonymous" class="glyphicon glyphicon-sunglasses center-block"></span></td>
 			<td>
@@ -29,7 +29,11 @@
 				<!--label for Finished status-->
 				<span class="label label-info" ng-show="evaluation.status=='Finished'">{{evaluation.status}}</span>
 			</td>
-		<td>{{evaluation.resultsAvailableDate}}</td>
+		<td ng-show="evaluation.status != 'Finished'">{{evaluation.resultsAvailableDate}}</td>
+		<td ng-show="evaluation.status == 'Finished'">
+			<button type="button" class="btn btn-xs btn-default">View Results
+			</button>
+		</td>
 
 	</tr>
 </table>

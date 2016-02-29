@@ -44,8 +44,17 @@ angular.module('app.evaluations', ['ngRoute'])
     }
   }
 
-  $scope.viewEvaluation = function(id) {
+    $scope.viewEvaluation = function (id, $event) {
+      if ($event.target.nodeName == "BUTTON") {
+        $scope.viewResults(id);
+        return;
+      }
     $location.path("/view-evaluation/" + id);
-  }
+    };
+
+    $scope.viewResults = function (id) {
+      $location.path("/view-results/" + id);
+
+    };
 
 }]);
