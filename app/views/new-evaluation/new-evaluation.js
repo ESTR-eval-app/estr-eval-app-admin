@@ -13,11 +13,26 @@ angular.module('app.new-evaluation', ['ngRoute'])
 
   .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', 'envService', function ($scope, $location, $http, authService, envService) {
 
+    if (window.localStorage['copyEvaluation']) {
+      //copy of evaluation
+      $scope.evaluation = JSON.parse(window.localStorage['copyEvaluation']);
+      window.localStorage.removeItem('copyEvaluation');
+      $scope.isCopy = true;
+      $scope.evaluation.name = "Copy of " + $scope.evaluation.name;
+    }
+
+    else {
+      // new empty evaluation
+      $scope.evaluation = {
+        isAnonymous: true,
+        questions: {}
+      };
+      $scope.isCopy = false;
+    }
+
     $scope.newEvaluationSaveClick = function () {
-      console.log($scope.evaluation);
+      //console.log($scope.evaluation);
       $scope.evaluation.createdBy = authService.getTokenUser().id;
-      $scope.evaluation.isAnonymous = true;
-      $scope.evaluation.questions = {};
 
       $http.post('http:' + envService.read('apiUrl') + '/evaluations', $scope.evaluation, {
         headers: authService.getAPITokenHeader()

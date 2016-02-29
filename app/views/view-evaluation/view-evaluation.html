@@ -59,10 +59,8 @@
 									<!--TODO shortcut to results-->
 									<button type="button" class="btn btn-xs btn-default" ng-click="">View Results
 									</button>
-									<!--TODO duplicate-->
-									<!--TODO available for any status but created-->
-									<button type="button" class="btn btn-xs btn-default" ng-click="">Copy to New
-										Evaluation
+									<button type="button" class="btn btn-xs btn-default"
+									        ng-click="copyEvaluationBtnClick()">New From Template
 									</button>
 
 								</div>
@@ -217,12 +215,16 @@
 					</label>
 				</div>
 			</div>
-			<button ng-disabled="evaluation.status != 'Created'" type="submit"
+			<button ng-show="evaluation.status == 'Created'" type="submit"
 			        class="btn btn-default btn-horiz-space pull-right"
 			        ng-click="saveEvalOptionsBtnClick()">Save Options
 			</button>
+			<button ng-show="evaluation.status != 'Created'" type="button"
+			        class="btn btn-horiz-space btn-info pull-right" ng-click="copyEvaluationBtnClick()">New From
+				Template
+			</button>
 			<button ng-show="evaluation.status == 'Created'" type="submit"
-			        class="btn btn-danger"
+			        class="btn btn-horiz-space btn-danger"
 			        ng-click="deleteEvaluationBtnClick()">Delete Evaluation
 			</button>
 		</div>

@@ -166,6 +166,16 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
     $scope.saveQuestionsBtnClick = function () {
       updateEvaluation();
+    };
+
+    $scope.copyEvaluationBtnClick = function () {
+      var evaluation = $scope.evaluation;
+      delete evaluation.id;
+      delete evaluation.resultsAvailableDate;
+      delete evaluation.status;
+
+      window.localStorage['copyEvaluation'] = JSON.stringify($scope.evaluation);
+      $location.path("/new-evaluation");
     }
 
   }]);

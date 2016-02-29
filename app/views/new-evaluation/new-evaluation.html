@@ -2,7 +2,8 @@
 </div>
 
 <div class="container">
-<h2>New Evaluation</h2>
+	<h2 ng-show="!isCopy">New Evaluation</h2>
+	<h2 ng-show="isCopy">New Evaluation From Copy</h2>
 <form class="form-horizontal col-xs-4" name="newEvaluationForm">
 	<div class="form-group">
 		<label for="name">Name</label>
