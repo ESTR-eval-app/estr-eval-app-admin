@@ -177,6 +177,9 @@ angular.module('app.view-evaluation', ['ngRoute'])
       window.localStorage['copyEvaluation'] = JSON.stringify($scope.evaluation);
       $("#statusChangeModal").modal("hide");
       $location.path("/new-evaluation");
-    }
+    };
 
+    $scope.viewResultsBtnClick = function (id) {
+      // TODO view results for eval by id
+    }
   }]);
