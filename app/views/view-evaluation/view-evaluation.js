@@ -73,6 +73,10 @@ angular.module('app.view-evaluation', ['ngRoute'])
     };
 
     function updateEvaluation() {
+
+      var date = new Date($scope.evaluation.resultsAvailableDate);
+      $scope.evaluation.resultsAvailableDate = date.getTime();
+
       //send update to server
       $http
         .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {

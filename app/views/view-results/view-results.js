@@ -11,6 +11,7 @@ angular.module('app.view-results', ['ngRoute'])
 
   .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
 
+    // TODO handle page access if evaluation status isn't finished
 
     var evalId = $routeParams.evalId;
     $http

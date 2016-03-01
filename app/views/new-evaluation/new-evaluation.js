@@ -33,7 +33,8 @@ angular.module('app.new-evaluation', ['ngRoute'])
     $scope.newEvaluationSaveClick = function () {
       //console.log($scope.evaluation);
       $scope.evaluation.createdBy = authService.getTokenUser().id;
-
+      var date = new Date($scope.evaluation.resultsAvailableDate);
+      $scope.evaluation.resultsAvailableDate = date.getTime();
       $http.post('http:' + envService.read('apiUrl') + '/evaluations', $scope.evaluation, {
         headers: authService.getAPITokenHeader()
       }).then(success, fail);
