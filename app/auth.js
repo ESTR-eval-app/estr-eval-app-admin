@@ -1,5 +1,5 @@
 angular.module('app.auth', ['angular-jwt'])
-  .factory('authService', function (jwtHelper) {
+  .factory('authService', function ($rootScope, jwtHelper) {
 
 
     return {
@@ -8,11 +8,14 @@ angular.module('app.auth', ['angular-jwt'])
         console.log("logging in");
         window.localStorage['auth'] = token;
         console.log(window.localStorage.getItem("auth"));
+        $rootScope.$emit('loginStateChange', 'in');
       },
 
       logout: function () {
         console.log("logout");
         window.localStorage.removeItem('auth');
+        $rootScope.$emit('loginStateChange', 'out');
+
       },
 
       getAPITokenHeader: function () {
