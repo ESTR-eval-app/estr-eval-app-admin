@@ -42,6 +42,8 @@
 
 	<div class="col-md-10">
 		<h3>Responses Including Comments</h3>
+
+		<p ng-show="!results.numResponses">No responses were recieved.</p>
 		<div ng-repeat="question in results.qualitativeResponses">
 			<h4>
 				Q: {{evaluation.questions[question.question].text}}
