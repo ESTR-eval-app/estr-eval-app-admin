@@ -4,6 +4,7 @@
 angular.module('app', [
   'ngRoute',
   'environment',
+  'angular-chartist',
   'app.auth',
   'app.nav',
   'app.home',

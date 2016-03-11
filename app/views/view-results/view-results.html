@@ -1,6 +1,6 @@
 <div class="container">
 
-	<h2>Results for {{evaluation.name}}</h2>
+	<h2>Result Report for {{evaluation.name}}</h2>
 	<span><strong>First response received:</strong>
 		{{results.responsesStartDate}}
 	</span>
@@ -8,5 +8,19 @@
 	<span><strong>Last response received:</strong>
 		{{results.responsesEndDate}}
 	</span>
+	<p><strong>Total number of responses recieved:</strong>
+		{{results.numResponses}}
+	</p>
 	<!--todo download btn-->
+
+	<h3>Distribution of Responses</h3>
+	<div class="col-md-8">
+		<div ng-repeat="question in results.responseCounts track by $index">
+			<h4>
+				Q: {{evaluation.questions[$index].text}}
+			</h4>
+			<chartist class="ct-chart ct-major-twelfth" chartist-data="chartsData[$index]" chartist-chart-type="Bar"
+			          chartist-chart-options="chartOptions"></chartist>
+		</div>
+	</div>
 </div>

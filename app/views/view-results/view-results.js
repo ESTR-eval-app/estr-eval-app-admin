@@ -11,6 +11,14 @@ angular.module('app.view-results', ['ngRoute'])
 
   .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
 
+    $scope.chartOptions = {
+      axisX: {
+        onlyInteger: true
+      },
+      horizontalBars: true
+    };
+
+
     // TODO handle page access if evaluation status isn't finished
 
     var evalId = $routeParams.evalId;
@@ -25,7 +33,6 @@ angular.module('app.view-results', ['ngRoute'])
 
       function success(response) {
         console.log('retrieved eval');
-        console.log(response);
         $scope.evaluation = response.data[0];
       }
 
@@ -37,7 +44,7 @@ angular.module('app.view-results', ['ngRoute'])
 
     function getResultsForEvaluation(id) {
       $http
-        .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId + '/results', {
+        .get('http:' + envService.read('apiUrl') + '/evaluations/' + id + '/results', {
           headers: authService.getAPITokenHeader()
         }).then(success, fail);
 
@@ -46,7 +53,9 @@ angular.module('app.view-results', ['ngRoute'])
         $scope.results.responsesStartDate = getAndFormatDateTime($scope.results.responsesStartDate);
         $scope.results.responsesEndDate = getAndFormatDateTime($scope.results.responsesEndDate);
 
-        console.log($scope.results);
+        // set endpoint of chart scale
+        $scope.chartOptions.high = $scope.results.numResponses;
+        getResponseDistributions();
       }
 
       function fail(response) {
@@ -66,6 +75,28 @@ angular.module('app.view-results', ['ngRoute'])
         minute: "numeric"
       });
       return result;
+    }
+
+    var chartLabels = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"];
+    // todo if NA or DK resps allowed, append to labels array
+    // TODO move this in case needs to be changed
+
+
+    // TODO move to server
+    function getResponseDistributions() {
+      $scope.chartsData = [];
+      $scope.results.responseCounts.forEach(function (value, index, responses) {
+        var respDistribution = [0, 0, 0, 0];
+        Object.keys(value.responses).forEach(function (key) {
+          respDistribution[key - 1] = value.responses[key];
+        });
+        var data = {
+          labels: chartLabels,
+          series: [respDistribution]
+        };
+        $scope.chartsData.push(data);
+      })
+
     }
 
   }]);
