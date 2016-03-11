@@ -13,7 +13,8 @@
     "angular-animate": "^1.4.9",
     "bootstrap": "^3.3.6",
     "angular-jwt": "^0.0.9",
-    "angular-environment": "^1.0.3"
+    "angular-environment": "^1.0.3",
+    "angular-chartist.js": "^3.3.13"
   },
   "resolutions": {
     "angular": "1.4.9"
