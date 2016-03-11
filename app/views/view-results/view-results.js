@@ -56,6 +56,7 @@ angular.module('app.view-results', ['ngRoute'])
         // set endpoint of chart scale
         $scope.chartOptions.high = $scope.results.numResponses;
         getResponseDistributions();
+        console.log($scope.results.qualitativeResponses)
       }
 
       function fail(response) {
@@ -97,6 +98,15 @@ angular.module('app.view-results', ['ngRoute'])
         $scope.chartsData.push(data);
       })
 
+    }
+
+
+    $scope.downloadGraphsBtnClick = function () {
+      // TODO
+    };
+
+    $scope.downloadCommentsBtnClick = function () {
+      // TODO
     }
 
   }]);
