@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ESTR-eval-app/estr-eval-app-admin.svg?branch=master)](https://travis-ci.org/ESTR-eval-app/estr-eval-app-admin)
 # ESTR Eval App Admin Site
 
 ### Install Dependencies
