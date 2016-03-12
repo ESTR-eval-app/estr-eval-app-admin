@@ -1,11 +1,58 @@
-<div ng-controller="navController" ng-include="templateUrl">
-
-</div>
-
 <div class="container">
 
-	<h2>Results for {{evaluation.name}}</h2>
+	<div class="col-md-10">
+		<h2>Result Report for {{evaluation.name}}</h2>
+	<span><strong>First evaluation received:</strong>
+		{{results.responsesStartDate}}
+	</span>
+		&nbsp;
+	<span><strong>Last evaluation received:</strong>
+		{{results.responsesEndDate}}
+	</span>
+		<p><strong>Total number of evaluations received:</strong>
+			{{results.numResponses}}
+		</p>
+	</div>
 
-</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-xs btn-default btn-vert-space"
+		        ng-click="downloadGraphsBtnClick()"><span
+				class="glyphicon glyphicon-download"></span> Download Graph Report
+		</button>
+		<button type="button" class="btn btn-xs btn-default btn-vert-space"
+		        ng-click="downloadCommentsBtnClick()"><span
+				class="glyphicon glyphicon-download"></span> Download Comment Report
+		</button>
+	</div>
+	<!--todo download btn-->
 
+	<div class="col-md-10">
+		<h3>Distribution of Responses</h3>
+
+		<p ng-show="!results.numResponses">No responses were recieved.</p>
+		<div ng-repeat="question in results.responseCounts track by $index">
+			<h4>
+				Q: {{evaluation.questions[$index].text}}
+			</h4>
+			<chartist class="ct-chart ct-major-twelfth" chartist-data="chartsData[$index]" chartist-chart-type="Bar"
+			          chartist-chart-options="chartOptions"></chartist>
+		</div>
+	</div>
+
+
+	<div class="col-md-10">
+		<h3>Responses Including Comments</h3>
+
+		<p ng-show="!results.numResponses">No responses were recieved.</p>
+		<div ng-repeat="question in results.qualitativeResponses">
+			<h4>
+				Q: {{evaluation.questions[question.question].text}}
+			</h4>
+			<div ng-repeat="response in question.responses">
+				<div><em>{{response.text}}</em>
+					<span ng-show="!evaluation.isAnonymous"> -{{response.name}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -36,3 +36,10 @@
 .btn-vert-space {
 	margin-top: 5px;
 }
+
+.ct-series-a .ct-bar {
+	stroke: #46b8da;
+	stroke-width: 40px;
+}
+
+/*TODO use nth child selctor to add image to graph labels?*/
