@@ -6,6 +6,7 @@ angular.module('app', [
   'environment',
   'angular-chartist',
   'app.auth',
+  'app.upload',
   'app.nav',
   'app.home',
   'app.login',
