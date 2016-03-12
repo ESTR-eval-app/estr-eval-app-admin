@@ -12,4 +12,4 @@ before_install:
 - chmod 600 eval-n-site-deploy-key
 - mv eval-n-site-deploy-key ~/.ssh/id_rsa
 script:
-- scripts/deploy.sh
+- deploy_scripts/deploy.sh
