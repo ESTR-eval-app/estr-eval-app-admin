@@ -281,7 +281,8 @@
 					<td>{{question.type}}</td>
 					<td>
 						{{question.text}}
-						<button type="submit" class="btn btn-xs btn-default btn-horiz-space"
+						<button ng-show="question.audioPath" type="submit"
+						        class="btn btn-xs btn-default btn-horiz-space"
 						        ng-click="playAudio(question.audioPath)">
 							<span class="glyphicon glyphicon-volume-up"></span></button>
 
@@ -296,9 +297,6 @@
 						        ng-click="editQuestionBtnClick($index)"><span
 								class="glyphicon glyphicon-pencil"></span> Edit
 						</button>
-
-						<!--TODO add questions to bank-->
-
 					</td>
 				</tr>
 			</table>

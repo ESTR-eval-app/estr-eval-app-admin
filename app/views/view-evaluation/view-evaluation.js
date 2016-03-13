@@ -157,9 +157,9 @@ angular.module('app.view-evaluation', ['ngRoute'])
     };
 
     $scope.saveQuestionBtnClick = function () {
-      // TODO if a file has been uploaded, send it to the server
+      // if an audio file has been uploaded, send it
       if (!$scope.audioFile) {
-        alert('You must choose an .mp3 file to upload');
+        saveQuestion();
         return;
       }
       var file = $scope.audioFile;
