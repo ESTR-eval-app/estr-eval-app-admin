@@ -6,7 +6,7 @@ angular.module('app', [
   'environment',
   'angular-chartist',
   'app.auth',
-  //'app.upload',
+  'app.upload',
   'app.nav',
   'app.home',
   'app.license_privacy',

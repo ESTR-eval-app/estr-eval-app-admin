@@ -127,7 +127,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
       uploadFile();
 
-      // TODO get path of uploaded file and add to obj. Send to audio route then get path back to include in obj
+      // TODO get path of uploaded file and add to obj. Send to audio route, get path for inclusion in obj?
 
       if ($scope.editQuestion.index) {
         // has an index, is an edit
@@ -195,8 +195,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
       var file = $scope.audioFile;
       console.log('file is ');
       console.dir(file);
-      var uploadUrl = "/fileUpload";
-      fileUpload.uploadFileToUrl(file, uploadUrl);
+      fileUpload.uploadFileToUrl(file, $scope.evaluation.id, $scope.editQuestion.index || $scope.evaluation.questions.length);
     };
 
   }]);
