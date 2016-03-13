@@ -9,7 +9,7 @@ angular.module('app', [
   //'app.upload',
   'app.nav',
   'app.home',
-  'app.license',
+  'app.license_privacy',
   'app.login',
   'app.evaluations',
   'app.new-evaluation',
