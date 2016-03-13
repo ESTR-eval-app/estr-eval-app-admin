@@ -11,24 +11,71 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
   .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', 'fileUpload', function ($routeParams, $location, $scope, $http, authService, envService, fileUpload) {
 
-    $scope.questionsModified = false;
-
     var evalId = $routeParams.evalId;
-    $http
-      .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
-        headers: authService.getAPITokenHeader()
-      }).then(success, fail);
+    getEvaluation();
 
-    function success(response) {
-      $scope.evaluation = response.data[0];
-      $scope.evaluation.resultsAvailableDate = new Date($scope.evaluation.resultsAvailableDate);
-      console.log(response);
-      console.log('retrieved successfully');
+    function getEvaluation() {
+      $http
+        .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
+          headers: authService.getAPITokenHeader()
+        }).then(success, fail);
+
+      function success(response) {
+        $scope.evaluation = response.data[0];
+        $scope.evaluation.resultsAvailableDate = new Date($scope.evaluation.resultsAvailableDate);
+        console.log(response);
+        console.log('retrieved successfully');
+      }
+
+      function fail(response) {
+        console.log(response.data);
+        console.log('retrieved fail');
+      }
     }
 
-    function fail(response) {
-      console.log(response.data);
-      console.log('retrieved fail');
+    function updateEvaluation() {
+
+      var date = new Date($scope.evaluation.resultsAvailableDate);
+      $scope.evaluation.resultsAvailableDate = date.getTime();
+
+      //send update to server
+      $http
+        .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
+          headers: authService.getAPITokenHeader()
+        }).then(success, fail);
+
+      function success(response) {
+        console.log(response);
+        console.log('updated successfully');
+        showUpdateSuccessMessage();
+
+      }
+
+      function fail(response) {
+        console.log(response);
+        console.log('update failed');
+        showUpdateFailMessage();
+
+      }
+
+    }
+
+    function showUpdateFailMessage() {
+      $('#updateFailAlert').show();
+      $('#updateSuccessAlert').hide();
+
+      setTimeout(function () {
+        $('#updateFailAlert').fadeOut();
+      }, 3000)
+    }
+
+    function showUpdateSuccessMessage() {
+      $('#updateSuccessAlert').show();
+      $('#updateFailAlert').hide();
+
+      setTimeout(function () {
+        $('#updateSuccessAlert').fadeOut();
+      }, 3000)
     }
 
     $scope.changeStatusBtnClick = function () {
@@ -72,45 +119,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
       updateEvaluation();
     };
 
-    function updateEvaluation() {
 
-      var date = new Date($scope.evaluation.resultsAvailableDate);
-      $scope.evaluation.resultsAvailableDate = date.getTime();
-
-      //send update to server
-      $http
-        .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
-          headers: authService.getAPITokenHeader()
-        }).then(success, fail);
-
-      function success(response) {
-        console.log(response);
-        console.log('updated successfully');
-        $('#updateSuccessAlert').show();
-        $('#updateFailAlert').hide();
-        $('#questionsModifiedAlert').hide();
-
-
-        setTimeout(function () {
-          $('#updateSuccessAlert').fadeOut();
-        }, 3000)
-
-      }
-
-      function fail(response) {
-        console.log(response);
-        console.log('update failed');
-        $('#updateFailAlert').show();
-        $('#updateSuccessAlert').hide();
-
-        setTimeout(function () {
-          $('#updateFailAlert').fadeOut();
-        }, 3000)
-
-      }
-
-    }
-
+    // TODO clear upload chosen for new questions
     $scope.addQuestionBtnClick = function () {
       if (!$scope.evaluation.questions.length) {
         $scope.evaluation.questions = [];
@@ -123,12 +133,64 @@ angular.module('app.view-evaluation', ['ngRoute'])
     };
 
     // TODO changing question in modal incorrectly updates before save changes clicked
-    $scope.completeQuestionModifyBtnClick = function () {
 
-      uploadFile();
+    $scope.editQuestionBtnClick = function (index) {
+      $scope.editQuestion = $scope.evaluation.questions[index];
+      $scope.editQuestion.index = index;
+      $("#questionDetailModal").modal("show");
+    };
 
-      // TODO get path of uploaded file and add to obj. Send to audio route, get path for inclusion in obj?
+    $scope.deleteQuestionBtnClick = function (index) {
 
+      if (!confirm("Are you sure you want to delete this question?")) {
+        return;
+      }
+
+      console.log($scope.evaluation.questions);
+      console.log("remove at " + index);
+
+      $scope.evaluation.questions.splice(index, 1);
+
+      console.log($scope.evaluation.questions);
+
+      updateEvaluation();
+    };
+
+    $scope.saveQuestionBtnClick = function () {
+      // TODO if a file has been uploaded, send it to the server
+      if (!$scope.audioFile) {
+        alert('You must choose an .mp3 file to upload');
+        return;
+      }
+      var file = $scope.audioFile;
+      console.log('file is ');
+      console.dir(file);
+      fileUpload.uploadFileToUrl(file, $scope.evaluation.id,
+        $scope.editQuestion.index || $scope.evaluation.questions.length,
+        onAudioSaveSuccess, onAudioSaveFail);
+    };
+
+    function onAudioSaveSuccess(response) {
+      console.log(response);
+      if (response.message == "stored successfully") {
+        console.log(response.message);
+        console.log($scope.editQuestion);
+        $scope.editQuestion.audioPath = response.uri;
+        saveQuestion();
+      }
+      else {
+        // TODO clean up
+        console.log(response.message);
+        showUpdateFailMessage();
+      }
+    }
+
+    function onAudioSaveFail(error) {
+      console.error(error);
+      showUpdateFailMessage()
+    }
+
+    function saveQuestion() {
       if ($scope.editQuestion.index) {
         // has an index, is an edit
         var i = $scope.editQuestion.index;
@@ -144,35 +206,10 @@ angular.module('app.view-evaluation', ['ngRoute'])
       }
 
       $("#questionDetailModal").modal("hide");
-      $("#questionsModifiedAlert").show();
-      $scope.questionsModified = true;
-    };
 
-    $scope.editQuestionBtnClick = function (index) {
-      $scope.editQuestion = $scope.evaluation.questions[index];
-      $scope.editQuestion.index = index;
-      $("#questionDetailModal").modal("show");
-    };
-
-    $scope.deleteQuestionBtnClick = function (index) {
-      $('#questionsModifiedAlert').show();
-      $scope.questionsModified = true;
-
-      if (!confirm("Are you sure you want to delete this question?")) {
-        return;
-      }
-
-      console.log($scope.evaluation.questions);
-      console.log("remove at " + index);
-
-      $scope.evaluation.questions.splice(index, 1);
-
-      console.log($scope.evaluation.questions);
-    };
-
-    $scope.saveQuestionsBtnClick = function () {
       updateEvaluation();
-    };
+      getEvaluation();
+    }
 
     $scope.copyEvaluationBtnClick = function () {
       var evaluation = $scope.evaluation;
@@ -191,11 +228,12 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
     };
 
-    var uploadFile = function () {
-      var file = $scope.audioFile;
-      console.log('file is ');
-      console.dir(file);
-      fileUpload.uploadFileToUrl(file, $scope.evaluation.id, $scope.editQuestion.index || $scope.evaluation.questions.length);
-    };
+
+    $scope.playAudio = function (url) {
+      console.log($scope.editQuestion);
+      console.log('playing ' + url);
+      new Audio(url).play();
+    }
+
 
   }]);

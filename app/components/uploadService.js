@@ -16,7 +16,7 @@ angular.module('app.upload', [])
   }])
 
   .service('fileUpload', ['$http', 'envService', 'authService', function ($http, envService, authService) {
-    this.uploadFileToUrl = function (file, evalId, questionId) {
+    this.uploadFileToUrl = function (file, evalId, questionId, success, fail) {
 
       var reqHeaders = authService.getAPITokenHeader;
       reqHeaders['Content-Type'] = 'audio/mp3';
@@ -25,12 +25,12 @@ angular.module('app.upload', [])
         headers: reqHeaders,
         transformRequest: angular.identity
       }).success(function (response) {
-          console.log(response);
-          console.log('sent successfully')
+          console.log('sent successfully');
+          success(response);
         })
-        .error(function (response) {
-          console.log(err);
-          console.log(error)
+        .error(function (err) {
+          console.log(error);
+          fail(err)
         });
     };
     // TODO check file size and only mp3
