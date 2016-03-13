@@ -29,6 +29,8 @@
   padding: 0;
 }
 
+/* Extra button spacer styles
+------------------------------------------------- */
 .btn-horiz-space {
 	margin-right: 5px;
 }
@@ -37,9 +39,45 @@
 	margin-top: 5px;
 }
 
+/* Bar graph styles
+------------------------------------------------- */
 .ct-series-a .ct-bar {
 	stroke: #46b8da;
 	stroke-width: 40px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	background-color: #f8f8f8;
+}
+
+.footer > .container {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.footer .text-muted {
+	margin: 10px 0;
+}
+
+.footer .text-muted a {
+	color: inherit;
+	text-decoration: underline;
 }
 
 /*TODO use nth child selctor to add image to graph labels?*/

@@ -9,7 +9,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
+  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', 'fileUpload', function ($routeParams, $location, $scope, $http, authService, envService, fileUpload) {
 
     $scope.questionsModified = false;
 
@@ -125,6 +125,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
     // TODO changing question in modal incorrectly updates before save changes clicked
     $scope.completeQuestionModifyBtnClick = function () {
 
+      uploadFile();
+
       // TODO get path of uploaded file and add to obj. Send to audio route then get path back to include in obj
 
       if ($scope.editQuestion.index) {
@@ -187,5 +189,14 @@ angular.module('app.view-evaluation', ['ngRoute'])
       $("#statusChangeModal").modal("hide");
       $location.path("/view-results/" + id);
 
-    }
+    };
+
+    var uploadFile = function () {
+      var file = $scope.audioFile;
+      console.log('file is ');
+      console.dir(file);
+      var uploadUrl = "/fileUpload";
+      fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+
   }]);
