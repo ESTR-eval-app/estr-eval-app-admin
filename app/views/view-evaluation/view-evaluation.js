@@ -83,6 +83,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
     };
 
     $scope.saveEvalOptionsBtnClick = function () {
+
       // TODO check validation
       updateEvaluation();
     };

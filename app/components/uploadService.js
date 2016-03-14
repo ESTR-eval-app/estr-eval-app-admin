@@ -30,7 +30,7 @@ angular.module('app.upload', [])
         })
         .error(function (err) {
           console.log(error);
-          fail(err)
+          fail(undefined, err)
         });
     };
     // TODO check file size and only mp3
