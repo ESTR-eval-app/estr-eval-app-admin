@@ -9,194 +9,251 @@ angular.module('app.view-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('ViewEvaluationController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', 'fileUpload', function ($routeParams, $location, $scope, $http, authService, envService, fileUpload) {
+  .controller('ViewEvaluationController', [
+    '$routeParams',
+    '$location',
+    '$scope',
+    '$http',
+    'authService',
+    'envService',
+    'uploadService',
+    function ($routeParams, $location, $scope, $http, authService, envService, uploadService) {
 
-    $scope.questionsModified = false;
+      var evalId = $routeParams.evalId;
+      getEvaluation();
 
-    var evalId = $routeParams.evalId;
-    $http
-      .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
-        headers: authService.getAPITokenHeader()
-      }).then(success, fail);
+      function getEvaluation() {
+        $http
+          .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
+            headers: authService.getAPITokenHeader()
+          }).then(success, fail);
 
-    function success(response) {
-      $scope.evaluation = response.data[0];
-      $scope.evaluation.resultsAvailableDate = new Date($scope.evaluation.resultsAvailableDate);
-      console.log(response);
-      console.log('retrieved successfully');
-    }
+        function success(response) {
+          $scope.evaluation = response.data[0];
+          $scope.evaluation.resultsAvailableDate = new Date($scope.evaluation.resultsAvailableDate);
+          console.log(response);
+          console.log('retrieved successfully');
+        }
 
-    function fail(response) {
-      console.log(response.data);
-      console.log('retrieved fail');
-    }
-
-    $scope.changeStatusBtnClick = function () {
-      $("#statusChangeModal").modal("show");
-    };
-
-    $scope.saveEvalOptionsBtnClick = function () {
-      // TODO check validation
-      updateEvaluation();
-    };
-
-    $scope.deleteEvaluationBtnClick = function () {
-      if (!confirm("Are you sure you want to delete this evaluation? This cannot be undone.")) {
-        return;
-      }
-      $http
-        .delete('http:' + envService.read('apiUrl') + '/evaluations/' + $scope.evaluation.id, {
-          headers: authService.getAPITokenHeader()
-        }).then(success, fail);
-
-      function success(response) {
-        console.log('deleted successfully');
-        $location.path('/evaluations');
-      }
-
-      function fail(response) {
-        console.log(response);
-        console.log('delete failed');
-      }
-    };
-
-    $scope.updateStatusBtnClick = function () {
-      if ($scope.evaluation.status == "Created") {
-        if (!confirm("If you publish this evaluation, it can no longer be modified. Do you want to publish it?")) {
-          return;
+        function fail(response) {
+          console.log(response.data);
+          console.log('retrieved fail');
         }
       }
-      $scope.evaluation.status = $scope.newStatus;
 
-      $("#statusChangeModal").modal("hide");
-      updateEvaluation();
-    };
+      function updateEvaluation() {
 
-    function updateEvaluation() {
+        var date = new Date($scope.evaluation.resultsAvailableDate);
+        $scope.evaluation.resultsAvailableDate = date.getTime();
 
-      var date = new Date($scope.evaluation.resultsAvailableDate);
-      $scope.evaluation.resultsAvailableDate = date.getTime();
+        //send update to server
+        $http
+          .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
+            headers: authService.getAPITokenHeader()
+          }).then(success, fail);
 
-      //send update to server
-      $http
-        .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
-          headers: authService.getAPITokenHeader()
-        }).then(success, fail);
+        function success(response) {
+          console.log(response);
+          console.log('updated successfully');
+          showUpdateSuccessMessage();
 
-      function success(response) {
-        console.log(response);
-        console.log('updated successfully');
-        $('#updateSuccessAlert').show();
-        $('#updateFailAlert').hide();
-        $('#questionsModifiedAlert').hide();
+        }
 
+        function fail(response) {
+          console.log(response);
+          console.log('update failed');
+          showUpdateFailMessage();
 
-        setTimeout(function () {
-          $('#updateSuccessAlert').fadeOut();
-        }, 3000)
+        }
 
       }
 
-      function fail(response) {
-        console.log(response);
-        console.log('update failed');
+      function showUpdateFailMessage() {
         $('#updateFailAlert').show();
         $('#updateSuccessAlert').hide();
 
         setTimeout(function () {
           $('#updateFailAlert').fadeOut();
         }, 3000)
-
       }
 
-    }
+      function showUpdateSuccessMessage() {
+        $('#updateSuccessAlert').show();
+        $('#updateFailAlert').hide();
 
-    $scope.addQuestionBtnClick = function () {
-      if (!$scope.evaluation.questions.length) {
-        $scope.evaluation.questions = [];
+        setTimeout(function () {
+          $('#updateSuccessAlert').fadeOut();
+        }, 3000)
       }
-      $scope.editQuestion = {
-        type: "Faces"
+
+      $scope.changeStatusBtnClick = function () {
+        $("#statusChangeModal").modal("show");
       };
 
-      $("#questionDetailModal").modal("show");
-    };
+      $scope.saveEvalOptionsBtnClick = function () {
 
-    // TODO changing question in modal incorrectly updates before save changes clicked
-    $scope.completeQuestionModifyBtnClick = function () {
+        // TODO check validation
+        updateEvaluation();
+      };
 
-      uploadFile();
+      $scope.deleteEvaluationBtnClick = function () {
+        if (!confirm("Are you sure you want to delete this evaluation? This cannot be undone.")) {
+          return;
+        }
+        $http
+          .delete('http:' + envService.read('apiUrl') + '/evaluations/' + $scope.evaluation.id, {
+            headers: authService.getAPITokenHeader()
+          }).then(success, fail);
 
-      // TODO get path of uploaded file and add to obj. Send to audio route then get path back to include in obj
+        function success(response) {
+          console.log('deleted successfully');
+          $location.path('/evaluations');
+        }
 
-      if ($scope.editQuestion.index) {
-        // has an index, is an edit
-        var i = $scope.editQuestion.index;
-        delete $scope.editQuestion.index;
+        function fail(response) {
+          console.log(response);
+          console.log('delete failed');
+        }
+      };
+
+      $scope.updateStatusBtnClick = function () {
+        if ($scope.evaluation.status == "Created") {
+          if (!confirm("If you publish this evaluation, it can no longer be modified. Do you want to publish it?")) {
+            return;
+          }
+        }
+        $scope.evaluation.status = $scope.newStatus;
+
+        $("#statusChangeModal").modal("hide");
+        updateEvaluation();
+      };
+
+      $scope.addQuestionBtnClick = function () {
+        if (!$scope.evaluation.questions.length) {
+          $scope.evaluation.questions = [];
+        }
+        $scope.editQuestion = {
+          type: "Faces"
+        };
+
+        $("#questionDetailModal").modal("show");
+      };
+
+      // TODO changing question in modal incorrectly updates before save changes clicked
+
+      $scope.editQuestionBtnClick = function (index) {
+        $scope.editQuestion = $scope.evaluation.questions[index];
+        $scope.editQuestion.index = index;
+        $("#questionDetailModal").modal("show");
+      };
+
+      $scope.deleteQuestionBtnClick = function (index) {
+
+        if (!confirm("Are you sure you want to delete this question?")) {
+          return;
+        }
+
         console.log($scope.evaluation.questions);
-        $scope.evaluation.questions.splice(i, $scope.editQuestion);
+        console.log("remove at " + index);
+
+        $scope.evaluation.questions.splice(index, 1);
+
         console.log($scope.evaluation.questions);
+
+        updateEvaluation();
+      };
+
+      $scope.saveQuestionBtnClick = function (fileUpload) {
+        console.log(fileUpload);
+
+        // if an audio file has been uploaded, send it
+        if (!$scope.audioFile) {
+          saveQuestion();
+          return;
+        }
+        // TODO check
+        //var file = $scope.audioFile;
+        //console.log('file is ');
+        //console.dir(file);
+        uploadService.uploadFileToUrl(fileUpload, $scope.evaluation.id,
+          $scope.editQuestion.index || $scope.evaluation.questions.length,
+          onAudioSaveSuccess, onAudioSaveFail);
+      };
+
+
+      function onAudioSaveSuccess(response) {
+        console.log(response);
+        if (response.message == "stored successfully") {
+          console.log(response.message);
+          console.log($scope.editQuestion);
+          $scope.editQuestion.audioPath = response.uri;
+          saveQuestion();
+          clearFileInput();
+        }
+        else {
+          console.error(response.message);
+          showUpdateFailMessage();
+        }
       }
-      else {
-        // new, add to end
-        $scope.evaluation.questions.push($scope.editQuestion);
 
+      // ensures that audio file upload is reset for the next upload.
+      // https://github.com/danialfarid/ng-file-upload/issues/12
+      function clearFileInput() {
+        var input = document.getElementById('audioInput');
+        var newInput = input.cloneNode();
+        var form = document.getElementById('audioForm');
+
+        form.appendChild(newInput);
+        form.removeChild(input);
       }
 
-      $("#questionDetailModal").modal("hide");
-      $("#questionsModifiedAlert").show();
-      $scope.questionsModified = true;
-    };
-
-    $scope.editQuestionBtnClick = function (index) {
-      $scope.editQuestion = $scope.evaluation.questions[index];
-      $scope.editQuestion.index = index;
-      $("#questionDetailModal").modal("show");
-    };
-
-    $scope.deleteQuestionBtnClick = function (index) {
-      $('#questionsModifiedAlert').show();
-      $scope.questionsModified = true;
-
-      if (!confirm("Are you sure you want to delete this question?")) {
-        return;
+      function onAudioSaveFail(error) {
+        console.error(error);
+        showUpdateFailMessage()
       }
 
-      console.log($scope.evaluation.questions);
-      console.log("remove at " + index);
+      function saveQuestion() {
+        if ($scope.editQuestion.index) {
+          // has an index, is an edit
+          var i = $scope.editQuestion.index;
+          delete $scope.editQuestion.index;
+          console.log($scope.evaluation.questions);
+          $scope.evaluation.questions.splice(i, $scope.editQuestion);
+          console.log($scope.evaluation.questions);
+        }
+        else {
+          // new, add to end
+          $scope.evaluation.questions.push($scope.editQuestion);
 
-      $scope.evaluation.questions.splice(index, 1);
+        }
 
-      console.log($scope.evaluation.questions);
-    };
+        $("#questionDetailModal").modal("hide");
 
-    $scope.saveQuestionsBtnClick = function () {
-      updateEvaluation();
-    };
+        updateEvaluation();
+        getEvaluation();
+      }
 
-    $scope.copyEvaluationBtnClick = function () {
-      var evaluation = $scope.evaluation;
-      delete evaluation.id;
-      delete evaluation.resultsAvailableDate;
-      delete evaluation.status;
+      $scope.copyEvaluationBtnClick = function () {
+        var evaluation = $scope.evaluation;
+        delete evaluation.id;
+        delete evaluation.resultsAvailableDate;
+        delete evaluation.status;
 
-      window.localStorage['copyEvaluation'] = JSON.stringify($scope.evaluation);
-      $("#statusChangeModal").modal("hide");
-      $location.path("/new-evaluation");
-    };
+        window.localStorage['copyEvaluation'] = JSON.stringify($scope.evaluation);
+        $("#statusChangeModal").modal("hide");
+        $location.path("/new-evaluation");
+      };
 
-    $scope.viewResultsBtnClick = function (id) {
-      $("#statusChangeModal").modal("hide");
-      $location.path("/view-results/" + id);
+      $scope.viewResultsBtnClick = function (id) {
+        $("#statusChangeModal").modal("hide");
+        $location.path("/view-results/" + id);
 
-    };
+      };
 
-    var uploadFile = function () {
-      var file = $scope.audioFile;
-      console.log('file is ');
-      console.dir(file);
-      var uploadUrl = "/fileUpload";
-      fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
 
-  }]);
+      $scope.playAudio = function (url) {
+        console.log('playing ' + url);
+        new Audio(url).play();
+      }
+
+    }]);
