@@ -5,6 +5,7 @@ angular.module('app', [
   'ngRoute',
   'environment',
   'angular-chartist',
+  'ngFileUpload',
   'app.auth',
   'app.upload',
   'app.nav',

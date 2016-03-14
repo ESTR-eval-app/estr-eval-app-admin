@@ -107,10 +107,14 @@
 								        ng-click="playAudio(editQuestion.audioPath)">
 									<span class="glyphicon glyphicon-volume-up"></span></button>
 
-								<div ng-show="!editQuestion.audioPath" id="addAudioControls">
-									<input id="audioInput" type="file" file-model="audioFile">
-									<!--TODO reset this-->
-								</div>
+								<form id="audioForm" name="audioForm" ng-show="!editQuestion.audioPath"
+								      id="addAudioControls">
+									<input id="audioInput" type="file" ngf-select ng-model="audioFile" name="audioFile"
+									       accept="audio/mp3"
+									       ngf-max-size="3MB" ngf-model-invalid="errorFile">
+									<i ng-show="audioForm.audioFile.$error.maxSize">Selected file too large:
+										{{errorFile.size / 1000000|number:1}}MB. Maximum 3MB</i>
+								</form>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -131,7 +135,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-default" ng-click="saveQuestionBtnClick()">Save
+					<button type="button" class="btn btn-default" ng-disabled="audioForm.audioFile.$error.maxSize"
+					        ng-click="saveQuestionBtnClick(audioFile)">Save
 					</button>
 				</div>
 			</div>
