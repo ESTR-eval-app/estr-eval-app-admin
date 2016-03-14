@@ -179,8 +179,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
         saveQuestion();
       }
       else {
-        // TODO clean up
-        console.log(response.message);
+        console.error(response.message);
         showUpdateFailMessage();
       }
     }
