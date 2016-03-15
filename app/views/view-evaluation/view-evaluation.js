@@ -139,11 +139,11 @@ angular.module('app.view-evaluation', ['ngRoute'])
         $("#questionDetailModal").modal("show");
       };
 
-      // TODO edits create an extra record
-
       $scope.editQuestionBtnClick = function (index) {
+
         $scope.editQuestion = angular.copy($scope.evaluation.questions[index]);
         $scope.editQuestion.index = index;
+
         $("#questionDetailModal").modal("show");
       };
 
@@ -164,7 +164,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
       };
 
       $scope.saveQuestionBtnClick = function (fileUpload) {
-        console.log(fileUpload);
+        //console.log(fileUpload);
 
         // if an audio file has been uploaded, send it
         if (!$scope.audioFile) {
@@ -213,12 +213,12 @@ angular.module('app.view-evaluation', ['ngRoute'])
       }
 
       function saveQuestion() {
-        if ($scope.editQuestion.index) {
+        if ($scope.editQuestion.index != undefined) {
           // has an index, is an edit
           var i = $scope.editQuestion.index;
           delete $scope.editQuestion.index;
           console.log($scope.evaluation.questions);
-          $scope.evaluation.questions.splice(i, $scope.editQuestion);
+          $scope.evaluation.questions[i] = $scope.editQuestion;
           console.log($scope.evaluation.questions);
         }
         else {
