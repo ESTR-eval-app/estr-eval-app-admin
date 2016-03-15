@@ -43,12 +43,12 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
       function updateEvaluation() {
 
-        var date = new Date($scope.evaluation.resultsAvailableDate);
-        $scope.evaluation.resultsAvailableDate = date.getTime();
+        var updatedEval = angular.copy($scope.evaluation);
+        updatedEval.resultsAvailableDate = updatedEval.resultsAvailableDate.getTime();
 
         //send update to server
         $http
-          .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, $scope.evaluation, {
+          .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, updatedEval, {
             headers: authService.getAPITokenHeader()
           }).then(success, fail);
 
