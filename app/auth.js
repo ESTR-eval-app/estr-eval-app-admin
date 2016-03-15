@@ -25,7 +25,7 @@ angular.module('app.auth', ['angular-jwt'])
 
       getTokenUser: function () {
         var payload = jwtHelper.decodeToken(window.localStorage['auth']);
-        console.log(payload);
+        //console.log(payload);
         return {
           username: payload.username,
           id: payload.id,
