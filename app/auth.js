@@ -41,6 +41,7 @@ angular.module('app.auth', ['angular-jwt'])
           if (expired) {
             console.log("token expired");
             this.logout();
+            return false;
           }
           console.log("authenticated");
           return true;
