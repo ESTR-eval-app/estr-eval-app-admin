@@ -139,10 +139,10 @@ angular.module('app.view-evaluation', ['ngRoute'])
         $("#questionDetailModal").modal("show");
       };
 
-      // TODO changing question in modal incorrectly updates before save changes clicked
+      // TODO edits create an extra record
 
       $scope.editQuestionBtnClick = function (index) {
-        $scope.editQuestion = $scope.evaluation.questions[index];
+        $scope.editQuestion = angular.copy($scope.evaluation.questions[index]);
         $scope.editQuestion.index = index;
         $("#questionDetailModal").modal("show");
       };

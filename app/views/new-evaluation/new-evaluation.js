@@ -31,14 +31,14 @@ angular.module('app.new-evaluation', ['ngRoute'])
     }
 
     $scope.newEvaluationSaveClick = function () {
-      console.log($scope.evaluation);
+      //   console.log($scope.evaluation);
 
       var evalToSave = angular.copy($scope.evaluation);
       evalToSave.createdBy = authService.getTokenUser().id;
       evalToSave.resultsAvailableDate = evalToSave.resultsAvailableDate.getTime();
 
-      console.log('saving new evaluation...');
-      console.log(evalToSave);
+      // console.log('saving new evaluation...');
+      // console.log(evalToSave);
 
       $http.post('http:' + envService.read('apiUrl') + '/evaluations', evalToSave, {
         headers: authService.getAPITokenHeader()
