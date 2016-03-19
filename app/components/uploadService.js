@@ -2,7 +2,7 @@ angular.module('app.upload', [])
   .service('uploadService', ['$http', 'envService', 'authService', function ($http, envService, authService) {
     this.uploadFileToUrl = function (file, evalId, questionId, success, fail) {
 
-      var reqHeaders = authService.getAPITokenHeader;
+      var reqHeaders = authService.getAPITokenHeader();
       reqHeaders['Content-Type'] = 'audio/mp3';
 
       $http.post('http:' + envService.read('apiUrl') + '/evaluations/' + evalId + '/question/' + questionId + '/audio', file, {
@@ -13,7 +13,7 @@ angular.module('app.upload', [])
           success(response);
         })
         .error(function (err) {
-          console.log(error);
+          console.log(err);
           fail(undefined, err)
         });
     };

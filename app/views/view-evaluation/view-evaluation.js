@@ -31,8 +31,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
         function success(response) {
           $scope.evaluation = response.data[0];
           $scope.evaluation.resultsAvailableDate = new Date($scope.evaluation.resultsAvailableDate);
-          console.log(response);
-          console.log('retrieved successfully');
+          //  console.log(response);
+          //  console.log('retrieved successfully');
         }
 
         function fail(response) {
@@ -53,8 +53,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
           }).then(success, fail);
 
         function success(response) {
-          console.log(response);
-          console.log('updated successfully');
+          //   console.log(response);
+          //  console.log('updated successfully');
           showUpdateSuccessMessage();
 
         }
@@ -153,12 +153,12 @@ angular.module('app.view-evaluation', ['ngRoute'])
           return;
         }
 
-        console.log($scope.evaluation.questions);
-        console.log("remove at " + index);
+        //console.log($scope.evaluation.questions);
+        //console.log("remove at " + index);
 
         $scope.evaluation.questions.splice(index, 1);
 
-        console.log($scope.evaluation.questions);
+        //console.log($scope.evaluation.questions);
 
         updateEvaluation();
       };
@@ -196,15 +196,12 @@ angular.module('app.view-evaluation', ['ngRoute'])
         }
       }
 
-      // ensures that audio file upload is reset for the next upload.
+      // ensure that audio file upload is reset for the next upload.
       // https://github.com/danialfarid/ng-file-upload/issues/12
       function clearFileInput() {
-        var input = document.getElementById('audioInput');
-        var newInput = input.cloneNode();
-        var form = document.getElementById('audioForm');
-
-        form.appendChild(newInput);
-        form.removeChild(input);
+        //console.log($scope.audioFile)
+        $scope.audioFile = null;
+        //console.log($scope.audioFile)
       }
 
       function onAudioSaveFail(error) {
@@ -217,9 +214,9 @@ angular.module('app.view-evaluation', ['ngRoute'])
           // has an index, is an edit
           var i = $scope.editQuestion.index;
           delete $scope.editQuestion.index;
-          console.log($scope.evaluation.questions);
+          //   console.log($scope.evaluation.questions);
           $scope.evaluation.questions[i] = $scope.editQuestion;
-          console.log($scope.evaluation.questions);
+          //   console.log($scope.evaluation.questions);
         }
         else {
           // new, add to end
@@ -252,7 +249,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
 
       $scope.playAudio = function (url) {
-        console.log('playing ' + url);
+        //       console.log('playing ' + url);
         new Audio(url).play();
       }
 
