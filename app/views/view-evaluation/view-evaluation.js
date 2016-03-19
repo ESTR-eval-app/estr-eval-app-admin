@@ -36,8 +36,8 @@ angular.module('app.view-evaluation', ['ngRoute'])
         }
 
         function fail(response) {
-          console.log(response.data);
-          console.log('retrieved fail');
+          console.error(response.data);
+          $location.path("/evaluations");
         }
       }
 
