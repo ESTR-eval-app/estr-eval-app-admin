@@ -85,5 +85,3 @@ body {
 input#audioInput + i {
 	color: red;
 }
-
-/*TODO use nth child selctor to add image to graph labels?*/

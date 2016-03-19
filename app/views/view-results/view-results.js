@@ -19,8 +19,6 @@ angular.module('app.view-results', ['ngRoute'])
     };
 
 
-    // TODO handle page access if evaluation status isn't finished
-
     var evalId = $routeParams.evalId;
     getEvaluation(evalId);
     getResultsForEvaluation(evalId);
