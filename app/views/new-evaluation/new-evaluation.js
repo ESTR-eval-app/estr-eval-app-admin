@@ -33,6 +33,15 @@ angular.module('app.new-evaluation', ['ngRoute'])
     $scope.newEvaluationSaveClick = function () {
       //   console.log($scope.evaluation);
 
+      function dateValid() {
+        return new Date().getTime() < $scope.evaluation.resultsAvailableDate.getTime();
+      }
+
+      if (!dateValid()) {
+        alert("You must enter a date that in the future");
+        return;
+      }
+
       var evalToSave = angular.copy($scope.evaluation);
       evalToSave.createdBy = authService.getTokenUser().id;
       evalToSave.resultsAvailableDate = evalToSave.resultsAvailableDate.getTime();
