@@ -92,7 +92,6 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
       $scope.saveEvalOptionsBtnClick = function () {
 
-        // TODO check validation
         updateEvaluation();
       };
 
@@ -171,7 +170,6 @@ angular.module('app.view-evaluation', ['ngRoute'])
           saveQuestion();
           return;
         }
-        // TODO check
         //var file = $scope.audioFile;
         //console.log('file is ');
         //console.dir(file);

@@ -17,6 +17,5 @@ angular.module('app.upload', [])
           fail(undefined, err)
         });
     };
-    // TODO check file size and only mp3
   }]);
 

@@ -1,15 +1,18 @@
 <div class="container">
 	<h2 ng-show="!isCopy">New Evaluation</h2>
 	<h2 ng-show="isCopy">New Evaluation From Copy</h2>
-<form class="form-horizontal col-xs-4" name="newEvaluationForm">
+	<form class="form-horizontal col-xs-4" name="newEvaluationForm" novalidate>
 	<div class="form-group">
 		<label for="name">Name</label>
-		<input ng-model="evaluation.name" type="text" class="form-control" id="name" placeholder="Name">
+		<input ng-model="evaluation.name" type="text" class="form-control" id="name" ng-required="true" ng-minlength="1"
+		       placeholder="Name">
 	</div>
 	<div class="form-group">
 		<label for="date">Date Finished</label>
-		<input ng-model="evaluation.resultsAvailableDate" type="date" class="form-control" id="date">
+		<input ng-model="evaluation.resultsAvailableDate" type="date" class="form-control" ng-required="1" id="date">
 	</div>
-	<button type="button" class="btn btn-default pull-right" ng-click="newEvaluationSaveClick()">Create</button>
+		<button type="button" class="btn btn-default pull-right" ng-disabled="newEvaluationForm.$invalid"
+		        ng-click="newEvaluationSaveClick()">Create
+		</button>
 </form>
 </div>
