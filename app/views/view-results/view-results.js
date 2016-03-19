@@ -34,6 +34,12 @@ angular.module('app.view-results', ['ngRoute'])
       function success(response) {
         console.log('retrieved eval');
         $scope.evaluation = response.data[0];
+
+        // prevent page access if results aren't available
+        if ($scope.evaluation.status != "Finished") {
+          $location.path("/view-evaluation");
+        }
+
       }
 
       function fail(response) {

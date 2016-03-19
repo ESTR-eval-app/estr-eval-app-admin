@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO validate form
-
 angular.module('app.new-evaluation', ['ngRoute'])
 
   .config(['$routeProvider', function ($routeProvider) {
