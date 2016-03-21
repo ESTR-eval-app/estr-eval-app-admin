@@ -82,20 +82,11 @@ angular.module('app.view-results', ['ngRoute'])
       return result;
     }
 
-    $scope.chartData = [{
-      labels: ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"],
-      series: ['Series'],
-      data: [
-        [65, 59, 80, 81]
-      ]
-    }
-    ];
     // todo if NA or DK resps allowed, append to labels array
     // TODO move this in case needs to be changed
 
-
-    // TODO move to server
     function getChartData() {
+      $scope.type = "HorizontalBar";
       $scope.chartData = [];
       $scope.results.responseCounts.forEach(function (value, index, responses) {
         var chart = {
@@ -104,7 +95,6 @@ angular.module('app.view-results', ['ngRoute'])
           data: []
         };
         var respDistribution = [0, 0, 0, 0];
-        //console.log(chart)
         Object.keys(value.responses).forEach(function (key) {
           respDistribution[key - 1] = value.responses[key];
         });
@@ -112,7 +102,6 @@ angular.module('app.view-results', ['ngRoute'])
         chart.data[0] = respDistribution;
         $scope.chartData.push(chart);
       });
-      console.log($scope.chartData)
     }
 
     $scope.downloadGraphsBtnClick = function () {

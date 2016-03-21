@@ -10,10 +10,10 @@
 	<span><strong>Last evaluation received:</strong>
 		{{results.responsesEndDate}}
 	</span>
-		<p><strong>Total number of evaluations received:</strong>
-			{{results.numResponses}}
-		</p>
-	</div>
+			<p><strong>Total number of evaluations received:</strong>
+				{{results.numResponses}}
+			</p>
+		</div>
 	</div>
 
 	<div class="col-md-4">
@@ -37,7 +37,7 @@
 				Q: {{evaluation.questions[$index].text}}
 			</h4>
 
-			<canvas id="bar{{$index}}" class="chart chart-bar"
+			<canvas id="bar{{$index}}" class="chart chart-base" chart-type="type"
 			        chart-data="chartData[$index].data" chart-labels="chartData[$index].labels"
 			        chart-series="chartData[$index].series"></canvas>
 		</div>
