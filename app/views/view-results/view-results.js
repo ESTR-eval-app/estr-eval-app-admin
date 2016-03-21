@@ -97,22 +97,7 @@ angular.module('app.view-results', ['ngRoute'])
     // TODO move this in case needs to be changed
 
 
-    // // TODO move to server
-    // function getResponseDistributions() {
-    //   $scope.chartsData = [];
-    //   $scope.results.responseCounts.forEach(function (value, index, responses) {
-    //     var respDistribution = [0, 0, 0, 0];
-    //     Object.keys(value.responses).forEach(function (key) {
-    //       respDistribution[key - 1] = value.responses[key];
-    //     });
-    //     var data = {
-    //       data : respDistribution
-    //     };
-    //     console.log(data)
-    //     $scope.chartsData.push(data);
-    //   })
-    //
-    // }
+    // TODO move to server
 
 
     $scope.downloadGraphsBtnClick = function () {
@@ -125,11 +110,12 @@ angular.module('app.view-results', ['ngRoute'])
           }
         }
       };
-      pdf.setFontSize(30);
-      pdf.text("Eval n");
-      pdf.text("Quantitative Response Distribution Report");
-
-      pdf.fromHTML($('#reportHead').get(0), 15, 15, options, function (dispose) {
+      var html = $('#reportHead').prop('outerHTML');
+      html += "<br><br><br>";
+      html += "<h2>Quantitative Response Distibution Report</h2>";
+      html += "<p>Data collected and report generated with Eval&nbsp;n</p>";
+      console.log(html);
+      pdf.fromHTML(html, 15, 15, options, function (dispose) {
         createGraphPages();
       });
 
@@ -141,60 +127,24 @@ angular.module('app.view-results', ['ngRoute'])
             continue;
           }
           pdf.addPage();
+          //console.log('added page')
           var html = "<h2>Q: " + $scope.evaluation.questions[i].text + "</h2>";
+          //console.log(html)
           // Todo get image
           var e = document.getElementById('bar' + i);
-          var imgData = e.toDataURL('image/jpeg');
-          html += "<img> src=" + imgData + " </img>";
+          var imgData = e.toDataURL('image/png');
+
+          html += "<img height='80' src='" + imgData + "' >";
+          //console.log(html)
           pdf.fromHTML(html, 15, 15, options, function (dispose) {
-            console.log(saved);
+            // console.log('saved');
           })
         }
 
-        pdf.save();
+        var reportName = $scope.evaluation.name;
+        reportName = reportName.replace(/ /g, "_");
+        pdf.save("Result_Graphs_" + reportName + ".pdf");
       }
-
-      // var doc = document.body.cloneNode();
-      // pdfDoc.appendChild(head);
-      //
-      // var sectionHead = document.createElement('h3');
-      // sectionHead.innerHTML = "Distribution of Responses";
-      //
-      // pdfDoc.appendChild(sectionHead);
-      //
-
-
-      // var graphImages = [];
-
-      //
-      // // var i = 0;
-      // // var canvases = document.getElementById('bar' + i);
-      // // console.log(canvases)
-      // // for (var canvas in canvases) {
-      // //   console.log(typeof canvas)
-      // //   console.log(canvas)
-      // //   graphImages.push(canvas.toDataURL('image/jpeg'));
-      // // }
-      // //
-      // // console.log(graphImages)
-      // //var url=document.getElementById("bar").toDataURL();
-      // // console.log(url)
-      //
-      //
-      //
-      // //pdf.fromHTML($('#graphs').get(0), 15, 15, {
-      // //
-      // //});
-      // pdf.addHTML(document.getElementById('reportHead'), function () {
-      //   pdf.save('test.pdf');
-      // });
-      // pdf.addImage(url, 'JPEG', 15, 40, 180, 180);
-      //   pdf.addHTML(doc, 15, 15, {
-      //     'width': 170
-      //   }, function() {
-      //     pdf.save();
-      //   });
-
     };
 
     $scope.downloadCommentsBtnClick = function () {
