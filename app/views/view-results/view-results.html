@@ -38,7 +38,8 @@
 			</h4>
 
 			<canvas id="bar{{$index}}" class="chart chart-bar"
-			        chart-data="chartsData[$index]" chart-labels="labels" chart-series="series"></canvas>
+			        chart-data="chartData[$index].data" chart-labels="chartData[$index].labels"
+			        chart-series="chartData[$index].series"></canvas>
 		</div>
 	</div>
 

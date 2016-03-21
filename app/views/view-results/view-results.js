@@ -59,7 +59,7 @@ angular.module('app.view-results', ['ngRoute'])
 
         // set endpoint of chart scale
         $scope.chartOptions.high = $scope.results.numResponses;
-        getResponseDistributions();
+        getChartData();
         // console.log($scope.results.qualitativeResponses)
       }
 
@@ -82,36 +82,37 @@ angular.module('app.view-results', ['ngRoute'])
       return result;
     }
 
-
-    // $scope.data = [
-    //   [65, 59, 80, 81]
-    // ];
-
-    $scope.labels = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"];
-    $scope.series = ['Series A'];
-    // $scope.series = ["series A"];
+    $scope.chartData = [{
+      labels: ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"],
+      series: ['Series'],
+      data: [
+        [65, 59, 80, 81]
+      ]
+    }
+    ];
     // todo if NA or DK resps allowed, append to labels array
     // TODO move this in case needs to be changed
 
 
     // TODO move to server
-    function getResponseDistributions() {
-      $scope.chartsData = [];
+    function getChartData() {
+      $scope.chartData = [];
       $scope.results.responseCounts.forEach(function (value, index, responses) {
+        var chart = {
+          series: ["Series"],
+          labels: ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"],
+          data: []
+        };
         var respDistribution = [0, 0, 0, 0];
+        //console.log(chart)
         Object.keys(value.responses).forEach(function (key) {
           respDistribution[key - 1] = value.responses[key];
         });
-
-        var data = {};
-        data.labels = $scope.labels;
-        data.datasets = respDistribution.slice(0, 4); // TODO only dealing with 1-4 scale items, deal with string keys?
-        // console.log(data)
-
-        $scope.chartsData.push(data);
+        respDistribution = respDistribution.slice(0, 4); // TODO only dealing with 1-4 scale items, deal with string keys?
+        chart.data[0] = respDistribution;
+        $scope.chartData.push(chart);
       });
-
-      console.log($scope.chartsData)
+      console.log($scope.chartData)
     }
 
     $scope.downloadGraphsBtnClick = function () {
