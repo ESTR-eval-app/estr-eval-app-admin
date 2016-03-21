@@ -59,7 +59,7 @@ angular.module('app.view-results', ['ngRoute'])
 
         // set endpoint of chart scale
         $scope.chartOptions.high = $scope.results.numResponses;
-        //    getResponseDistributions();
+        getResponseDistributions();
         // console.log($scope.results.qualitativeResponses)
       }
 
@@ -83,22 +83,36 @@ angular.module('app.view-results', ['ngRoute'])
     }
 
 
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
+    // $scope.data = [
+    //   [65, 59, 80, 81]
+    // ];
 
-    $scope.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90]
-    ];
-
-    // $scope.chartLabels = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"];
+    $scope.labels = ["Strongly Disagree", "Disagree", "Agree", "Strongly Agree"];
+    $scope.series = ['Series A'];
     // $scope.series = ["series A"];
     // todo if NA or DK resps allowed, append to labels array
     // TODO move this in case needs to be changed
 
 
     // TODO move to server
+    function getResponseDistributions() {
+      $scope.chartsData = [];
+      $scope.results.responseCounts.forEach(function (value, index, responses) {
+        var respDistribution = [0, 0, 0, 0];
+        Object.keys(value.responses).forEach(function (key) {
+          respDistribution[key - 1] = value.responses[key];
+        });
 
+        var data = {};
+        data.labels = $scope.labels;
+        data.datasets = respDistribution.slice(0, 4); // TODO only dealing with 1-4 scale items, deal with string keys?
+        // console.log(data)
+
+        $scope.chartsData.push(data);
+      });
+
+      console.log($scope.chartsData)
+    }
 
     $scope.downloadGraphsBtnClick = function () {
       var pdf = new jsPDF();
