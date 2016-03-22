@@ -1,17 +1,17 @@
-<div class="container">
-
+<div id="report" class="container">
 	<div class="col-md-10">
-		<h2>Result Report for {{evaluation.name}}</h2>
+		<h2>Result Report</h2>
+			<h2>{{evaluation.name}}</h2>
 	<span><strong>First evaluation received:</strong>
 		{{results.responsesStartDate}}
 	</span>
-		&nbsp;
+			<br>
 	<span><strong>Last evaluation received:</strong>
 		{{results.responsesEndDate}}
 	</span>
-		<p><strong>Total number of evaluations received:</strong>
-			{{results.numResponses}}
-		</p>
+			<p><strong>Total number of evaluations received:</strong>
+				{{results.numResponses}}
+			</p>
 	</div>
 
 	<div class="col-md-4">
@@ -24,7 +24,6 @@
 				class="glyphicon glyphicon-download"></span> Download Comment Report
 		</button>
 	</div>
-	<!--todo download btn-->
 
 	<div class="col-md-10">
 		<h3>Distribution of Responses</h3>
@@ -34,16 +33,18 @@
 			<h4>
 				Q: {{evaluation.questions[$index].text}}
 			</h4>
-			<chartist class="ct-chart ct-major-twelfth" chartist-data="chartsData[$index]" chartist-chart-type="Bar"
-			          chartist-chart-options="chartOptions"></chartist>
+
+			<canvas id="bar{{$index}}" class="chart chart-base" chart-type="type"
+			        chart-data="chartData[$index].data" chart-labels="chartData[$index].labels"
+			        chart-series="chartData[$index].series"></canvas>
 		</div>
 	</div>
-
 
 	<div class="col-md-10">
 		<h3>Responses Including Comments</h3>
 
 		<p ng-show="!results.numResponses">No responses were recieved.</p>
+		<div id="comments">
 		<div ng-repeat="question in results.qualitativeResponses">
 			<h4>
 				Q: {{evaluation.questions[question.question].text}}
@@ -53,6 +54,7 @@
 					<span ng-show="!evaluation.isAnonymous"> -{{response.name}}</span>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </div>
