@@ -24,9 +24,8 @@
 				class="glyphicon glyphicon-download"></span> Download Comment Report
 		</button>
 	</div>
-	<!--todo download btn-->
 
-	<div id="graphs" class="col-md-10">
+	<div class="col-md-10">
 		<h3>Distribution of Responses</h3>
 
 		<p ng-show="!results.numResponses">No responses were recieved.</p>
@@ -41,10 +40,11 @@
 		</div>
 	</div>
 
-	<div id="comments" class="col-md-10">
+	<div class="col-md-10">
 		<h3>Responses Including Comments</h3>
 
 		<p ng-show="!results.numResponses">No responses were recieved.</p>
+		<div id="comments">
 		<div ng-repeat="question in results.qualitativeResponses">
 			<h4>
 				Q: {{evaluation.questions[question.question].text}}
@@ -54,6 +54,7 @@
 					<span ng-show="!evaluation.isAnonymous"> -{{response.name}}</span>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </div>
