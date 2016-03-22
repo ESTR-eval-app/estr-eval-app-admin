@@ -11,14 +11,6 @@ angular.module('app.view-results', ['ngRoute'])
 
   .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
 
-    $scope.chartOptions = {
-      axisX: {
-        onlyInteger: true
-      },
-      horizontalBars: true
-    };
-
-
     var evalId = $routeParams.evalId;
     getEvaluation(evalId);
     getResultsForEvaluation(evalId);
@@ -57,8 +49,7 @@ angular.module('app.view-results', ['ngRoute'])
         $scope.results.responsesStartDate = getAndFormatDateTime($scope.results.responsesStartDate);
         $scope.results.responsesEndDate = getAndFormatDateTime($scope.results.responsesEndDate);
 
-        // set endpoint of chart scale
-        $scope.chartOptions.high = $scope.results.numResponses;
+
         getChartData();
         // console.log($scope.results.qualitativeResponses)
       }
@@ -69,7 +60,7 @@ angular.module('app.view-results', ['ngRoute'])
 
     }
 
-    //// TODO move to another module where can be shared
+    //// TODO move to another module
     function getAndFormatDateTime(date) {
       var result = new Date(date);
       result = result.toLocaleDateString("en-US", {
@@ -106,18 +97,16 @@ angular.module('app.view-results', ['ngRoute'])
 
     $scope.downloadGraphsBtnClick = function () {
       var pdf = new jsPDF();
-      var options = {
-        width: 170,
-        specialElementHandlers: {
-          'canvas': function (element, renderer) {
-            console.log(element)
-          }
-        }
-      };
-      var html = $('#reportHead').prop('outerHTML');
+      var options = {width: 170};
+      var html = "<h1> Eval <sup>n</sup></h1>";
+      html += "<h1>Quantitative Response Distibution Report</h1><br><br><br>";
+      html += "<p>Generated on <b>" + getAndFormatDateTime(new Date()) + "</b><p><br><br><br>";
       html += "<br><br><br>";
-      html += "<h2>Quantitative Response Distibution Report</h2>";
-      html += "<p>Data collected and report generated with Eval&nbsp;n</p>";
+      html += "<p> Response data collected between <b>" + $scope.results.responsesStartDate +
+        "</b> and <b>" + $scope.results.responsesEndDate + "</b></p><br><br>";
+      html += "<p># of completed evaluations received: <b>" + $scope.results.numResponses + "</b></p><br><br>";
+      html += "<p>Number of quantitative questions in evaluation: <b>" + $scope.results.responseCounts.length + "</b></p>";
+
       console.log(html);
       pdf.fromHTML(html, 15, 15, options, function (dispose) {
         createGraphPages();
@@ -125,14 +114,18 @@ angular.module('app.view-results', ['ngRoute'])
 
 
       function createGraphPages() {
+        var pagesDone = 0;
+
+        var questions = $scope.evaluation.questions.filter(function (question) {
+          return question.type != "Descriptive";
+        });
+
         // for each graph, title and graph
-        for (var i = 0; i < $scope.evaluation.questions.length; i++) {
-          if ($scope.evaluation.questions[i].type == "Descriptive") {
-            continue;
-          }
-          pdf.addPage();
+        for (var i = 0; i < questions.length; i++) {
           //console.log('added page')
-          var html = "<h2>Q: " + $scope.evaluation.questions[i].text + "</h2>";
+          var html = "<h2>Question Responses</h2>";
+          html += '<h2>"' + questions[i].text + '"</h2>';
+
           //console.log(html)
           // Todo get image
           var e = document.getElementById('bar' + i);
@@ -141,18 +134,27 @@ angular.module('app.view-results', ['ngRoute'])
           html += "<img height='80' src='" + imgData + "' >";
           //console.log(html)
           pdf.fromHTML(html, 15, 15, options, function (dispose) {
-            // console.log('saved');
-          })
+            console.log('saved');
+            pagesDone++;
+            if (pagesDone == 5) {
+              saveReport();
+            }
+          });
+          pdf.addPage();
         }
 
-        var reportName = $scope.evaluation.name;
-        reportName = reportName.replace(/ /g, "_");
-        pdf.save("Result_Graphs_" + reportName + ".pdf");
-      }
-    };
+        function saveReport() {
+          var reportName = $scope.evaluation.name;
+          reportName = reportName.replace(/ /g, "_");
+          pdf.save("Result_Graphs_" + reportName + ".pdf");
+        }
 
-    $scope.downloadCommentsBtnClick = function () {
-      // TODO
-    }
+      }
+
+      $scope.downloadCommentsBtnClick = function () {
+        // TODO
+      }
+
+    };
 
   }]);
