@@ -46,8 +46,8 @@ angular.module('app.view-results', ['ngRoute'])
 
       function success(response) {
         $scope.results = response.data;
-        $scope.results.responsesStartDate = getAndFormatDateTime($scope.results.responsesStartDate);
-        $scope.results.responsesEndDate = getAndFormatDateTime($scope.results.responsesEndDate);
+        // $scope.results.responsesStartDate = getAndFormatDateTime($scope.results.responsesStartDate);
+        // $scope.results.responsesEndDate = getAndFormatDateTime($scope.results.responsesEndDate);
 
 
         getChartData();
@@ -58,19 +58,6 @@ angular.module('app.view-results', ['ngRoute'])
         console.error(response.data);
       }
 
-    }
-
-    //// TODO move to another module
-    function getAndFormatDateTime(date) {
-      var result = new Date(date);
-      result = result.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric"
-      });
-      return result;
     }
 
     // todo account for NA or DK responses and scale, currently ignored
@@ -173,5 +160,16 @@ angular.module('app.view-results', ['ngRoute'])
       pdf.save("Report_" + reportType + "_" + reportName + ".pdf");
     }
 
-
+    function getAndFormatDateTime(date) {
+      var result = new Date(date);
+      result = result.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
+      return result;
+    }
+    
   }]);

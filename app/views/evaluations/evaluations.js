@@ -19,18 +19,6 @@ angular.module('app.evaluations', ['ngRoute'])
   function evaluationsRetrieveSuccess(response) {
     //console.log(response);
       $scope.evaluations = response.data;
-    $scope.evaluations.forEach(function (item, index, collection) {
-
-      // format date
-      item.resultsAvailableDate = new Date(item.resultsAvailableDate);
-      item.resultsAvailableDate = item.resultsAvailableDate.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      });
-
-    });
-
     }
 
   function evaluationsRetrieveFailure(response) {

@@ -3,11 +3,11 @@
 		<h2>Result Report</h2>
 			<h2>{{evaluation.name}}</h2>
 	<span><strong>First evaluation received:</strong>
-		{{results.responsesStartDate}}
+		{{results.responsesStartDate | date:'MMM d yyyy h:m a'}}
 	</span>
 			<br>
 	<span><strong>Last evaluation received:</strong>
-		{{results.responsesEndDate}}
+		{{results.responsesEndDate | date:'MMM d yyyy h:m a'}}
 	</span>
 			<p><strong>Total number of evaluations received:</strong>
 				{{results.numResponses}}
