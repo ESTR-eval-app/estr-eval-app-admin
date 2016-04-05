@@ -37,31 +37,13 @@ module.exports = function (grunt) {
           }
         }
       }
-    },
+    }
   });
 
   // loads plugin for task
   grunt.loadNpmTasks('grunt-ng-constant');
 
   grunt.registerTask('build', [
-    //  'clean:dist',
-    'ngconstant:production',
-    //  'bower-install'
+    'ngconstant:production'
   ]);
-
-  grunt.registerTask('serve', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
-    }
-
-    grunt.task.run([
-      'clean:server',
-      'ngconstant:development',
-      'bower-install',
-      'concurrent:server',
-      'autoprefixer',
-      'connect:livereload',
-      'watch'
-    ]);
-  });
 };
