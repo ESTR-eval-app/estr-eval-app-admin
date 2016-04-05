@@ -1,5 +1,9 @@
 module.exports = function (grunt) {
 
+  if (!process.env.EVAL_N_HOST) {
+    throw Error("You must set the EVAL_N_HOST environment variable to the API server's IP or domain. See readme for details");
+  }
+  
   // project config
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -29,7 +33,7 @@ module.exports = function (grunt) {
         constants: {
           endpointConfig: {
             name: 'production',
-            apiEndpoint: 'http://localhost:3000/api'
+            apiEndpoint: 'http://' + process.env.EVAL_N_HOST + ':3000/api'
           }
         }
       }

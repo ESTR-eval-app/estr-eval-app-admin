@@ -10,12 +10,19 @@ Once the application sources are on your target server, install the dependencies
 
 ## Install Notes
 
-Most of the application's dependencies are managed using Bower, and can be found in the `bower.json` file. To install them, run the following:
+The application determines the endpoint for API requests using the `EVAL_N_HOST` environment variable, which should be set to the url or IP where the API can be found, for example, `somesite.com"`. When the application is built, a `config.js` file is generated which holds the url endpoint that should be used by the application, for example `http:somesite.com:3000/api`. This is required for all server requests to succeed.
+
+To install the application, ensure that the requred environment variable is set, then run:
 
 ```
 npm install
 ```
 
+```
+grunt build
+```
+
+The application's frontend dependencies are managed using Bower, and can be found in the `bower.json` file. To install them, run the following:
 ```
 bower install
 ```
