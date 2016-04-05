@@ -2,8 +2,8 @@
 
 // Declare app level module which depends on views, and components
 angular.module('app', [
+  'config',
   'ngRoute',
-  'environment',
   'chart.js',
   'ngFileUpload',
   'app.auth',
@@ -17,25 +17,8 @@ angular.module('app', [
   'app.view-evaluation',
   'app.view-results'
 
-]).config(['$routeProvider', 'envServiceProvider', function ($routeProvider, envServiceProvider) {
+]).config(['$routeProvider', function ($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/home'});
-
-  envServiceProvider.config({
-    domains: {
-      development: ["localhost"],
-      production: ["stevenlyall.me"]
-    },
-    vars: {
-      development: {
-        apiUrl: "//localhost:3000/api"
-      },
-      production: {
-        apiUrl: "//stevenlyall.me:3000/api"
-      }
-    }
-  });
-
-  envServiceProvider.check();
 }]).
 run(function($rootScope, $location, authService) {
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {

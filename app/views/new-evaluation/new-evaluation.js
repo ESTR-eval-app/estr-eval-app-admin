@@ -9,7 +9,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
     });
   }])
 
-  .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', 'envService', function ($scope, $location, $http, authService, envService) {
+  .controller('NewEvaluationController', ['$scope', '$location', '$http', 'authService', 'endpointConfig', function ($scope, $location, $http, authService, endpointConfig) {
 
     if (window.localStorage['copyEvaluation']) {
       //copy of evaluation
@@ -47,7 +47,7 @@ angular.module('app.new-evaluation', ['ngRoute'])
       // console.log('saving new evaluation...');
       // console.log(evalToSave);
 
-      $http.post('http:' + envService.read('apiUrl') + '/evaluations', evalToSave, {
+      $http.post(endpointConfig.apiEndpoint + '/evaluations', evalToSave, {
         headers: authService.getAPITokenHeader()
       }).then(success, fail);
 

@@ -9,7 +9,7 @@ angular.module('app.view-results', ['ngRoute'])
     });
   }])
 
-  .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'envService', function ($routeParams, $location, $scope, $http, authService, envService) {
+  .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'endpointConfig', function ($routeParams, $location, $scope, $http, authService, endpointConfig) {
 
     var evalId = $routeParams.evalId;
     getEvaluation(evalId);
@@ -17,7 +17,7 @@ angular.module('app.view-results', ['ngRoute'])
 
     function getEvaluation(id) {
       $http
-        .get('http:' + envService.read('apiUrl') + '/evaluations/' + id, {
+        .get(endpointConfig.apiEndpoint + '/evaluations/' + id, {
           headers: authService.getAPITokenHeader()
         }).then(success, fail);
 
@@ -40,7 +40,7 @@ angular.module('app.view-results', ['ngRoute'])
 
     function getResultsForEvaluation(id) {
       $http
-        .get('http:' + envService.read('apiUrl') + '/evaluations/' + id + '/results', {
+        .get(endpointConfig.apiEndpoint + '/evaluations/' + id + '/results', {
           headers: authService.getAPITokenHeader()
         }).then(success, fail);
 
@@ -50,7 +50,12 @@ angular.module('app.view-results', ['ngRoute'])
         // $scope.results.responsesEndDate = getAndFormatDateTime($scope.results.responsesEndDate);
 
 
-        getChartData();
+        try {
+          getChartData();
+        }
+        catch (err) {
+          //console.error(err)
+        }
         // console.log($scope.results.qualitativeResponses)
       }
 

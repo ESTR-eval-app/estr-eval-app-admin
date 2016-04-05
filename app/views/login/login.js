@@ -9,10 +9,10 @@ angular.module('app.login', ['ngRoute'])
   });
 }])
 
-  .controller('LoginController', ['$scope', '$http', '$location', 'authService', 'envService', function ($scope, $http, $location, authService, envService) {
+  .controller('LoginController', ['$scope', '$http', '$location', 'authService', 'endpointConfig', function ($scope, $http, $location, authService, endpointConfig) {
 
   $scope.attemptLogin = function () {
-    $http.post('http:' + envService.read('apiUrl') + '/authenticate', $scope.user).then(authSuccess, authFailed);
+    $http.post(endpointConfig.apiEndpoint + '/authenticate', $scope.user).then(authSuccess, authFailed);
   };
 
   function authSuccess(response) {
