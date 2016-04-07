@@ -16,11 +16,11 @@
 
 	<div class="col-md-4">
 		<button type="button" class="btn btn-xs btn-default btn-vert-space"
-		        ng-click="downloadGraphsBtnClick()"><span
+		        ng-click="downloadGraphsBtnClick()" ng-disabled="!results.numResponses"><span
 				class="glyphicon glyphicon-download"></span> Download Graph Report
 		</button>
 		<button type="button" class="btn btn-xs btn-default btn-vert-space"
-		        ng-click="downloadCommentsBtnClick()"><span
+		        ng-click="downloadCommentsBtnClick()" ng-disabled="!results.numResponses"><span
 				class="glyphicon glyphicon-download"></span> Download Comment Report
 		</button>
 	</div>

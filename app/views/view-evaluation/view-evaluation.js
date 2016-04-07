@@ -15,16 +15,17 @@ angular.module('app.view-evaluation', ['ngRoute'])
     '$scope',
     '$http',
     'authService',
-    'envService',
     'uploadService',
-    function ($routeParams, $location, $scope, $http, authService, envService, uploadService) {
+    'endpointConfig',
+
+    function ($routeParams, $location, $scope, $http, authService, uploadService, endpointConfig) {
 
       var evalId = $routeParams.evalId;
       getEvaluation();
 
       function getEvaluation() {
         $http
-          .get('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, {
+          .get(endpointConfig.apiEndpoint + '/evaluations/' + evalId, {
             headers: authService.getAPITokenHeader()
           }).then(success, fail);
 
@@ -48,7 +49,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
 
         //send update to server
         $http
-          .put('http:' + envService.read('apiUrl') + '/evaluations/' + evalId, updatedEval, {
+          .put(endpointConfig.apiEndpoint + '/evaluations/' + evalId, updatedEval, {
             headers: authService.getAPITokenHeader()
           }).then(success, fail);
 
@@ -56,6 +57,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
           //   console.log(response);
           //  console.log('updated successfully');
           showUpdateSuccessMessage();
+          getEvaluation();
 
         }
 
@@ -100,7 +102,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
           return;
         }
         $http
-          .delete('http:' + envService.read('apiUrl') + '/evaluations/' + $scope.evaluation.id, {
+          .delete(endpointConfig.apiEndpoint + '/evaluations/' + $scope.evaluation.id, {
             headers: authService.getAPITokenHeader()
           }).then(success, fail);
 
@@ -225,7 +227,6 @@ angular.module('app.view-evaluation', ['ngRoute'])
         $("#questionDetailModal").modal("hide");
 
         updateEvaluation();
-        getEvaluation();
       }
 
       $scope.copyEvaluationBtnClick = function () {
