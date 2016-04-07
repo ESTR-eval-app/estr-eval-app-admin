@@ -12,7 +12,8 @@
 	<tr class="ng-scope" ng-show="!evaluations.length">
 		<td colspan="5">No Evaluations</td>
 	</tr>
-	<tr class="clickable-row" ng-repeat="evaluation in evaluations" ng-click="viewEvaluation(evaluation.id, $event)">
+	<tr class="clickable-row" ng-repeat="evaluation in evaluations | orderBy:'name'"
+	    ng-click="viewEvaluation(evaluation.id, $event)">
 		<td>{{evaluation.name}}</td>
 			<td><span ng-show="evaluation.isAnonymous" class="glyphicon glyphicon-sunglasses center-block"></span></td>
 			<td>
