@@ -3,23 +3,22 @@
 
 Web app for the evaluation facilitator to create, edit, and view results for evaluations delivered using the Eval n platform. Communicates with the Eval n server application using its REST API, which is described in the documentation for the server/api component.
 
-For the web app to function correctly, it must have access to a running instance of the Eval n API, the endpoints for which are defined in `app.js`. These may be customized depending on the requirements of your specific deployment. `angular-environment` is used to allow different API environments for development, production, or other environments.
-During its development, deployments were done through TravisCI. If you'd like to reconfigure this, see the included .travis.yml and deployment scripts. This requires that you configure post-receive Git hooks in your repository on the target server, as well as keys for the project. If you want to have this set up again, check out www.travis-ci.org. There are many other similar solutions, but alternatively, it can be deployed manually as well.
+For the web app to function correctly, it must have access to a running instance of the Eval n API, the endpoints for which are based on a url in `config.js`. These may be customized depending on the requirements of your specific deployment- see "Install Notes" below. During its development, deployments were done through TravisCI. If you'd like to reconfigure this, see the included .travis.yml and deployment scripts. This requires that you configure post-receive Git hooks in your repository on the target server, as well as keys for the project. If you want to have this set up again, check out www.travis-ci.org. There are many other similar solutions, but alternatively, it can be deployed manually as well.
 
-Once the application sources are on your target server, install the dependencies with NPM (see below), then configure your web server. I used Nginx to direct requests for `/` to this application and `/evaluate` to the evaluation mobile-first web app if both are on the same server, but feel free to configure them how you like. The admin app and evaluation app are not dependent on each other and only require access to the API.
+Once the application sources are on your target server, install the dependencies with NPM (see below), then configure your web server. I used Nginx to direct requests for `/` to this application and `/evaluate` to the evaluation mobile-first web app if both are on the same server, but feel free to configure them how you like. It can also run using the built in node web server module by configuring the server in `Package.json` and running `npm start` . The admin app and evaluation app are not dependent on each other and only require access to the API.
 
 ## Install Notes
 
 The application determines the endpoint for API requests using the `EVAL_N_HOST` environment variable, which should be set to the url or IP where the API can be found, for example, `somesite.com"`. When the application is built, a `config.js` file is generated which holds the url endpoint that should be used by the application, for example `http:somesite.com:3000/api`. This is required for all server requests to succeed.
 Frontend dependencies are managed using Bower, and can be found in the `bower.json` file. To install them, run the following:
 
-To install the application, ensure that the requred environment variable is set, then run:
+To install the application, ensure that the required environment variable is set, then from the project directory run:
 
 ```
 npm install
 ```
 
-This runs the Grunt build and installs the bower dependencies. Alternatively, you can run `grunt build` and `bower install` on their own to run the build tasks and install bower modules.
+This runs a Grunt task to generate the config file for API endpoints and installs the bower dependencies. Alternatively, you can run `grunt build` and `bower install` on their own to run the build tasks and install bower modules.
 
 Once the application is installed correctly, ensure that the API is running and the application can access it, then you're good to go!
 
@@ -79,5 +78,3 @@ Two .pdf versions of this report can be downloaded from this screen using the bu
 
 ### Log Out
 Logs the user out and returns to the home page. 
-
-##Tasks for Future Development
