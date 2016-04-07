@@ -57,6 +57,7 @@ angular.module('app.view-evaluation', ['ngRoute'])
           //   console.log(response);
           //  console.log('updated successfully');
           showUpdateSuccessMessage();
+          getEvaluation();
 
         }
 
@@ -226,7 +227,6 @@ angular.module('app.view-evaluation', ['ngRoute'])
         $("#questionDetailModal").modal("hide");
 
         updateEvaluation();
-        getEvaluation();
       }
 
       $scope.copyEvaluationBtnClick = function () {
