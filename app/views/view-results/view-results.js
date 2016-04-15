@@ -11,6 +11,8 @@ angular.module('app.view-results', ['ngRoute'])
 
   .controller('ViewResultsController', ['$routeParams', '$location', '$scope', '$http', 'authService', 'endpointConfig', function ($routeParams, $location, $scope, $http, authService, endpointConfig) {
 
+    Chart.defaults.global.colours[0] = "#4D5360";
+
     var evalId = $routeParams.evalId;
     getEvaluation(evalId);
     getResultsForEvaluation(evalId);
